@@ -61,7 +61,7 @@ const CharacterPlanner = () => {
     <div className="App">
       <Panel title="Base Stats">
         <h3>Level {level}</h3>
-        <Dropdown classes={classes} onSelectClass={onSelectClass} />
+        <Dropdown name="Class" classes={classes} onSelectClass={onSelectClass} />
         <Counter name="Vigor" count={baseStats.vig} />
         <Counter name="Mind" count={baseStats.mind} />
         <Counter name="End" count={baseStats.end} />

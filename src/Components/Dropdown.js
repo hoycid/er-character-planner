@@ -4,11 +4,14 @@ const Dropdown = props => {
   };
 
   return (
-    <select onChange={handleChange}>
-      {Object.keys(props.classes).map(key => (
-        <option key={key}>{key}</option>
-      ))}
-    </select>
+    <>
+      <p>{props.name}</p>
+      <select onChange={handleChange}>
+        {Object.keys(props.classes).map(key => (
+          <option key={key}>{key}</option>
+        ))}
+      </select>
+    </>
   );
 };
 
