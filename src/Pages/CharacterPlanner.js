@@ -5,6 +5,7 @@ import "../App.css";
 import Panel from "../Components/Panel";
 import Counter from "../Components/Counter";
 import Dropdown from "../Components/Dropdown";
+import Info from "../Components/Info";
 import { useLevel } from "../Providers/LevelContext";
 
 const classes = {
@@ -46,6 +47,7 @@ const classes = {
 const CharacterPlanner = () => {
   const [selectedClass, setSelectedClass] = useState(classes.hero);
   const [baseStats, setBaseStats] = useState(selectedClass);
+  const [currentStats, setCurrentStats] = useState(selectedClass);
   const { level, setLevel } = useLevel();
 
   useEffect(() => {
@@ -55,21 +57,44 @@ const CharacterPlanner = () => {
 
   const onSelectClass = option => {
     setSelectedClass(classes[option]);
+    setCurrentStats(classes[option]);
+  };
+
+  const onAlterStat = (stat, statVal) => {
+    const updatedStats = {
+      ...selectedClass,
+      [stat]: statVal,
+    };
+
+    setCurrentStats(updatedStats);
   };
 
   return (
     <div className="App">
       <Panel title="Base Stats">
         <h3>Level {level}</h3>
-        <Dropdown name="Class" classes={classes} onSelectClass={onSelectClass} />
-        <Counter name="Vigor" count={baseStats.vig} />
-        <Counter name="Mind" count={baseStats.mind} />
-        <Counter name="End" count={baseStats.end} />
-        <Counter name="Str" count={baseStats.str} />
-        <Counter name="Dex" count={baseStats.dex} />
-        <Counter name="Int" count={baseStats.int} />
-        <Counter name="Faith" count={baseStats.faith} />
-        <Counter name="Arc" count={baseStats.arc} />
+        <Dropdown
+          name="Class"
+          classes={classes}
+          onSelectClass={onSelectClass}
+        />
+        <Counter name="vig" count={baseStats.vig} onAlterStat={onAlterStat} />
+        <Counter name="mind" count={baseStats.mind} onAlterStat={onAlterStat} />
+        <Counter name="end" count={baseStats.end} onAlterStat={onAlterStat} />
+        <Counter name="str" count={baseStats.str} onAlterStat={onAlterStat} />
+        <Counter name="dex" count={baseStats.dex} onAlterStat={onAlterStat} />
+        <Counter name="int" count={baseStats.int} onAlterStat={onAlterStat} />
+        <Counter
+          name="faith"
+          count={baseStats.faith}
+          onAlterStat={onAlterStat}
+        />
+        <Counter name="arc" count={baseStats.arc} onAlterStat={onAlterStat} />
+      </Panel>
+      <Panel>
+        <Info name="HP" stat={currentStats.vig} />
+        <Info name="FP" stat={currentStats.mind} />
+        <Info name="Stamina" stat={currentStats.end} />
       </Panel>
     </div>
   );
