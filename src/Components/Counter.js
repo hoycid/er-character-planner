@@ -12,6 +12,7 @@ const Counter = props => {
       setInput(count + 1);
       setCount(count + 1);
       setLevel(level + 1);
+      props.onAlterStat(props.name, count + 1);
     }
   };
 
@@ -20,6 +21,7 @@ const Counter = props => {
       setInput(count - 1);
       setCount(count - 1);
       setLevel(level - 1);
+      props.onAlterStat(props.name, count - 1);
     }
   };
 
@@ -37,10 +39,11 @@ const Counter = props => {
       setCount(Number(input));
     }
     if (input >= 99) {
-      setInput(99);
-      setCount(99);
-      setLevel(level + (99 - count));
+      setInput(input);
+      setCount(input);
+      setLevel(level + (input - count));
     }
+    props.onAlterStat(props.name, count);
   };
 
   useEffect(() => {
@@ -49,21 +52,19 @@ const Counter = props => {
   }, [props.count]);
 
   return (
-    <>
-      <div>
-        <p>{props.name}</p>
-        <button onClick={decreaseCount}>-</button>
-        <input
-          id={props.name}
-          value={input}
-          onChange={e => {
-            setInput(Number(e.target.value));
-          }}
-          onBlur={onBlurHandler}
-        />
-        <button onClick={increaseCount}>+</button>
-      </div>
-    </>
+    <div>
+      <p>{props.name}</p>
+      <button onClick={decreaseCount}>-</button>
+      <input
+        id={props.name}
+        value={input}
+        onChange={e => {
+          setInput(Number(e.target.value));
+        }}
+        onBlur={onBlurHandler}
+      />
+      <button onClick={increaseCount}>+</button>
+    </div>
   );
 };
 
