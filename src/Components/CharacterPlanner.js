@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 
 import "../App.css";
 
-import Panel from "../Components/Panel";
-import Counter from "../Components/Counter";
-import Dropdown from "../Components/Dropdown";
-import Info from "../Components/Info";
+import Panel from "./Panel";
+import Counter from "./Counter";
+import Dropdown from "./Dropdown";
+import Info from "./Info";
 import { useLevel } from "../Providers/LevelContext";
 
 const classes = {
