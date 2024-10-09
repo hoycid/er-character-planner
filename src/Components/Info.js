@@ -2,11 +2,15 @@ import { useState, useEffect } from "react";
 import calculateBaseStats from "../Utilities/calculateBaseStats";
 
 const Info = props => {
-  const [basicStat, setBasicStat] = useState();
+  const [basicStat, setBasicStat] = useState(props.stat);
 
   useEffect(() => {
-    setBasicStat(calculateBaseStats(props.name, props.stat));
-    props.onCalculateStat(props.name, basicStat);
+    if (props.onCalculateStat) {
+      setBasicStat(calculateBaseStats(props.name, props.stat));
+      props.onCalculateStat(props.name, basicStat);
+    } else {
+      setBasicStat(props.stat);
+    }
   }, [props.stat]);
 
   return (
