@@ -79,6 +79,12 @@ export const calculateEquipLoad = end => {
   return Math.round(equipLoad * 10) / 10;
 };
 
+export const calculateDiscovery = arc => {
+  let discovery = 100.0;
+  discovery = arc + discovery;
+  return Math.round(discovery * 10) / 10;
+};
+
 export const determineWeightStatus = (equipLoad, totalWeight) => {
   let weightStatus = "";
 
@@ -90,23 +96,46 @@ export const determineWeightStatus = (equipLoad, totalWeight) => {
     weightStatus = "Heavy Load";
   } else if (equipLoad >= 100.0) {
     weightStatus = "Overloaded";
-  } 
+  }
 
   return weightStatus;
+};
+
+export const calculateRunesToLevel = level => {
+  // x = ((Lvl+81)-92)*0.02
+  // x cannot be below 0, so change it to 0 if the formula resolves to below 0
+  // Rune Cost = ((x+0.1)*((Lvl+81)^2))+1
+  // The resulting number is always rounded down
+
+  if (level > 0) {
+    let x = (level + 81 - 92) * 0.02;
+    if (x < 0) x = 0;
+
+    return Math.floor((x + 0.1) * Math.pow(level + 81, 2) + 1);
+  } else {
+    return 0;
+  }
 };
 
 const calculateBaseStats = (statName, stat) => {
   let result = 0;
   if (statName === "hp") {
     result = calculateHealth(stat);
-  } else if (statName === "fp") {
+  }
+  if (statName === "fp") {
     result = calculateFP(stat);
-  } else if (statName === "stamina") {
+  }
+  if (statName === "stamina") {
     result = calculateStamina(stat);
-  } else if (statName === "equipLoad") {
+  }
+  if (statName === "equipLoad") {
     result = calculateEquipLoad(stat);
-  } else {
-    throw new Error("An error has occured.");
+  }
+  if (statName === "discovery") {
+    result = calculateDiscovery(stat);
+  }
+  if (statName === "runesToLevel") {
+    result = calculateRunesToLevel(stat);
   }
 
   return result;
