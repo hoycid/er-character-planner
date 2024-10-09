@@ -26,24 +26,28 @@ const Counter = props => {
   };
 
   const onBlurHandler = () => {
-    if (input < 99) {
-      if (input > count) {
-        setLevel(level + (input - count));
-      } else if (input <= props.count) {
-        setLevel(level - (count - props.count));
-        setCount(props.count);
-        setInput(props.count);
-      } else {
-        setLevel(level - (count - input));
+    const initialValue = props.count;
+    const maxLimit = 99;
+    let newInput = input;
+
+    if (newInput !== initialValue) {
+      if (newInput < initialValue) {
+        newInput = initialValue;
+      } else if (newInput >= maxLimit) {
+        newInput = maxLimit;
       }
-      setCount(Number(input));
+
+      setInput(newInput);
+      setCount(newInput);
+      setLevel(level + (newInput - initialValue));
     }
-    if (input >= 99) {
-      setInput(input);
-      setCount(input);
-      setLevel(level + (input - count));
+
+    if (newInput < maxLimit && newInput !== count) {
+      setLevel(level + (newInput - count));
+      setCount(newInput);
     }
-    props.onAlterStat(props.name, count);
+
+    props.onAlterStat(props.name, newInput);
   };
 
   useEffect(() => {
