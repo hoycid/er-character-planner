@@ -1,42 +1,91 @@
+/* Main App Container */
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+  background-color: #f5f5f5;
+  font-family: Arial, sans-serif;
 }
 
-p {
-  display: inline;
+/* Panels Container */
+.Panel {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 10px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Title Styling */
+.Panel h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Dropdown Styling */
+.Dropdown {
+  width: 100%;
+  margin: 10px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Info and Counter Components */
+.Info, .Counter, .Subinfo {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  margin: 5px 0;
+  background-color: #f9f9f9;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+}
+
+/* Individual Info Item Styling */
+.Info span, .Counter span, .Subinfo span {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Specific Stat Values */
+.Info .stat-value, .Counter .stat-value, .Subinfo .stat-value {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Hover and Interaction States */
+.Info:hover, .Counter:hover, .Subinfo:hover {
+  background-color: #e0f7fa;
+  border-color: #b2ebf2;
+  cursor: pointer;
+}
+
+/* Panel Layout Adjustments */
+.Panel:first-of-type {
+  width: 350px;
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+/* Adjustments for Info Panels */
+.Panel:last-of-type {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsive Design for Smaller Screens */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+    align-items: center;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .Panel {
+    width: 90%;
+    margin: 10px 0;
   }
 }
