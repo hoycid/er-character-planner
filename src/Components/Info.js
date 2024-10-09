@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
-import { calculateHealth } from "../Utilities/calculateBaseStats";
-import { calculateFP } from "../Utilities/calculateBaseStats";
+import calculateBaseStats from "../Utilities/calculateBaseStats";
 
 const Info = props => {
-  const [basicStat, setBasicStat] = useState(1);
+  const [basicStat, setBasicStat] = useState();
 
   useEffect(() => {
-    if (props.name === "HP") {
-      setBasicStat(calculateHealth(props.stat));
-    }
-    if (props.name === "FP") {
-      setBasicStat(calculateFP(props.stat));
-    }
+    setBasicStat(calculateBaseStats(props.name, props.stat));
+    props.onCalculateStat(props.name, basicStat);
   }, [props.stat]);
 
   return (
