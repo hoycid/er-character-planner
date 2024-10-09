@@ -7,6 +7,7 @@ import Counter from "./Counter";
 import Dropdown from "./Dropdown";
 import Info from "./Info";
 import { useLevel } from "../Providers/LevelContext";
+import Subinfo from "./Subinfo";
 
 const classes = {
   hero: {
@@ -48,6 +49,9 @@ const CharacterPlanner = () => {
   const [selectedClass, setSelectedClass] = useState(classes.hero);
   const [baseStats, setBaseStats] = useState(selectedClass);
   const [currentStats, setCurrentStats] = useState(selectedClass);
+  const [calculatedStats, setCalculatedStats] = useState({
+    equipload: "Light load",
+  });
   const { level, setLevel } = useLevel();
 
   useEffect(() => {
@@ -67,6 +71,10 @@ const CharacterPlanner = () => {
     };
 
     setCurrentStats(updatedStats);
+  };
+
+  const onCalculateStat = (statName, value) => {
+    setCalculatedStats({ ...calculatedStats, [statName]: value });
   };
 
   return (
@@ -92,9 +100,27 @@ const CharacterPlanner = () => {
         <Counter name="arc" count={baseStats.arc} onAlterStat={onAlterStat} />
       </Panel>
       <Panel>
-        <Info name="HP" stat={currentStats.vig} />
-        <Info name="FP" stat={currentStats.mind} />
-        <Info name="Stamina" stat={currentStats.end} />
+        <Info
+          name="hp"
+          stat={currentStats.vig}
+          onCalculateStat={onCalculateStat}
+        />
+        <Info
+          name="fp"
+          stat={currentStats.mind}
+          onCalculateStat={onCalculateStat}
+        />
+        <Info
+          name="stamina"
+          stat={currentStats.end}
+          onCalculateStat={onCalculateStat}
+        />
+        <Info
+          name="equipLoad"
+          stat={currentStats.end}
+          onCalculateStat={onCalculateStat}
+        />
+        <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
       </Panel>
     </div>
   );
