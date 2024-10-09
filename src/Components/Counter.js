@@ -56,10 +56,11 @@ const Counter = props => {
   }, [props.count]);
 
   return (
-    <div>
-      <p>{props.name}</p>
+    <div className="Counter">
+      <label>{props.name}</label>
       <button onClick={decreaseCount}>-</button>
       <input
+        className="stat-value"
         id={props.name}
         value={input}
         onChange={e => {

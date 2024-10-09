@@ -1,8 +1,8 @@
 const Subinfo = props => {
   return (
-    <>
-      <p>{props.stat}</p>
-    </>
+    <div className="Subinfo">
+      <p className="stat-value">{props.stat}</p>
+    </div>
   );
 };
 

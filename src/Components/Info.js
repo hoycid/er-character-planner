@@ -14,9 +14,9 @@ const Info = props => {
   }, [props.stat]);
 
   return (
-    <div>
+    <div className="Info">
       <label>{props.name}</label>
-      <p>{basicStat}</p>
+      <p className="stat-value">{basicStat}</p>
     </div>
   );
 };
