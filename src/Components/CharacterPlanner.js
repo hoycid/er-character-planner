@@ -9,6 +9,8 @@ import Info from "./Info";
 import { useLevel } from "../Providers/LevelContext";
 import Subinfo from "./Subinfo";
 
+import { calculateRunesToLevel } from "../Utilities/calculateBaseStats";
+
 const classes = {
   hero: {
     initLvl: 7,
@@ -51,8 +53,9 @@ const CharacterPlanner = () => {
   const [currentStats, setCurrentStats] = useState(selectedClass);
   const [calculatedStats, setCalculatedStats] = useState({
     equipload: "Light load",
+    totalWeight: 0,
   });
-  const { level, setLevel } = useLevel();
+  const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
   useEffect(() => {
     setBaseStats(selectedClass);
@@ -74,7 +77,18 @@ const CharacterPlanner = () => {
   };
 
   const onCalculateStat = (statName, value) => {
-    setCalculatedStats({ ...calculatedStats, [statName]: value });
+    setCalculatedStats({
+      ...calculatedStats,
+      [statName]: value,
+    });
+
+    let runes = 0;
+
+    for (let i = level - 1; i >= selectedClass.initLvl; i--) {
+      runes = runes + calculateRunesToLevel(i);
+    }
+
+    setTotalRunes(runes);
   };
 
   return (
@@ -98,6 +112,14 @@ const CharacterPlanner = () => {
           onAlterStat={onAlterStat}
         />
         <Counter name="arc" count={baseStats.arc} onAlterStat={onAlterStat} />
+        <Panel>
+          <Info
+            name="runesToLevel"
+            stat={level}
+            onCalculateStat={onCalculateStat}
+          />
+          <Info name="totalRunes" stat={totalRunes} />
+        </Panel>
       </Panel>
       <Panel>
         <Info
@@ -122,6 +144,16 @@ const CharacterPlanner = () => {
         />
         <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
       </Panel>
+      <Info
+        name="poise"
+        stat={calculatedStats.totalWeight}
+        onCalculateStat={onCalculateStat}
+      />
+      <Info
+        name="discovery"
+        stat={currentStats.arc}
+        onCalculateStat={onCalculateStat}
+      />
     </div>
   );
 };
