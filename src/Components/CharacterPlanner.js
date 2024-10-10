@@ -66,14 +66,14 @@ const CharacterPlanner = () => {
         />
       </Panel>
       <Panel>
-        {Object.entries(currentStats)
+        {Object.entries(baseStats)
           .filter(([name]) => name !== "initLvl")
           .map(([name, value]) => (
             <Info key={name} name={name} stat={value} />
           ))}
       </Panel>
       <Panel>
-        {Object.entries(baseStats)
+        {Object.entries(currentStats)
           .filter(([name]) => name !== "initLvl")
           .map(([name, value]) => (
             <Counter
