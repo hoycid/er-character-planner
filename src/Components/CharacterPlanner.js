@@ -24,6 +24,7 @@ const CharacterPlanner = () => {
 
   useEffect(() => {
     setBaseStats(selectedClass);
+    setCurrentStats(selectedClass);
     setLevel(selectedClass.initLvl);
   }, [selectedClass]);
 
@@ -34,7 +35,7 @@ const CharacterPlanner = () => {
 
   const onAlterStat = (stat, statVal) => {
     const updatedStats = {
-      ...selectedClass,
+      ...currentStats,
       [stat]: statVal,
     };
     setCurrentStats(updatedStats);
