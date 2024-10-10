@@ -7,6 +7,8 @@ const Counter = props => {
 
   const { level, setLevel } = useLevel();
 
+  const initialValue = props.initCount;
+
   const increaseCount = () => {
     if (count < 99) {
       setInput(count + 1);
@@ -17,7 +19,7 @@ const Counter = props => {
   };
 
   const decreaseCount = () => {
-    if (count > props.count) {
+    if (count > initialValue) {
       setInput(count - 1);
       setCount(count - 1);
       setLevel(level - 1);
@@ -26,7 +28,6 @@ const Counter = props => {
   };
 
   const onBlurHandler = () => {
-    const initialValue = props.count;
     const maxLimit = 99;
     let newInput = input;
 
