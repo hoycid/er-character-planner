@@ -79,6 +79,7 @@ const CharacterPlanner = () => {
             <Counter
               key={name}
               name={name}
+              initCount={baseStats[name]}
               count={value}
               onAlterStat={onAlterStat}
             />
