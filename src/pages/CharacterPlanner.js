@@ -10,7 +10,7 @@ import { useLevel } from "../providers/LevelProvider";
 import Subinfo from "../components/Subinfo";
 
 import { calculateRunesToLevel } from "../services/calculateBaseStats";
-import CLASSES from "../services/CLASSES";
+import CLASSES from "../utils/CLASSES";
 
 const CharacterPlanner = () => {
   const [selectedClass, setSelectedClass] = useState(CLASSES.hero);
