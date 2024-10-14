@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import "../styling/App.css";
+import "../styles/App.css";
 
 import Panel from "../components/Panel";
 import Counter from "../components/Counter";
