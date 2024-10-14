@@ -1,7 +1,7 @@
 const Panel = props => {
   return (
     <div className="panel">
-      <h2>{props.title}</h2>
+      <p>{props.title}</p>
       {props.children}
     </div>
   );

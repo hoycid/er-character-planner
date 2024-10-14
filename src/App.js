@@ -1,7 +1,5 @@
-import "./App.css";
-
-import { LevelProvider } from "./Providers/LevelContext";
-import CharacterPlanner from "./Components/CharacterPlanner";
+import { LevelProvider } from "./providers/LevelProvider";
+import CharacterPlanner from "./pages/CharacterPlanner";
 
 function App() {
   return (

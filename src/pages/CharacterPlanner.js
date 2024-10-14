@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 
-import "../App.css";
+import "../styling/App.css";
 
-import Panel from "./Panel";
-import Counter from "./Counter";
-import Dropdown from "./Dropdown";
-import Info from "./Info";
-import { useLevel } from "../Providers/LevelContext";
-import Subinfo from "./Subinfo";
+import Panel from "../components/Panel";
+import Counter from "../components/Counter";
+import Dropdown from "../components/Dropdown";
+import Info from "../components/Info";
+import { useLevel } from "../providers/LevelProvider";
+import Subinfo from "../components/Subinfo";
 
-import { calculateRunesToLevel } from "../Utilities/calculateBaseStats";
-import CLASSES from "../Utilities/CLASSES";
+import { calculateRunesToLevel } from "../services/calculateBaseStats";
+import CLASSES from "../services/CLASSES";
 
 const CharacterPlanner = () => {
   const [selectedClass, setSelectedClass] = useState(CLASSES.hero);

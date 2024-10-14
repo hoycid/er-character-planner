@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLevel } from "../Providers/LevelContext";
+import { useLevel } from "../providers/LevelProvider";
 
 const Counter = props => {
   const [count, setCount] = useState(Number(props.count));
