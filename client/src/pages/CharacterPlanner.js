@@ -39,7 +39,7 @@ const CharacterPlanner = props => {
     setCurrentStats(CLASSES[option]);
   };
 
-  const onAlterStat = (stat, statVal) => {
+  const handleAlterStat = (stat, statVal) => {
     const updatedStats = {
       ...currentStats,
       [stat]: statVal,
@@ -47,7 +47,7 @@ const CharacterPlanner = props => {
     setCurrentStats(updatedStats);
   };
 
-  const onCalculateStat = (statName, value) => {
+  const handleCalculateStat = (statName, value) => {
     setCalculatedStats({
       ...calculatedStats,
       [statName]: value,
@@ -59,6 +59,16 @@ const CharacterPlanner = props => {
     }
 
     setTotalRunes(runes);
+  };
+
+  const handleLoadPreset = e => {
+    const id = e.target.id;
+    fetch(`/characters/${id}`)
+      .then(response => response.json())
+      .then(data => {
+        // setCurrentStats(data);
+        console.log(data);
+      });
   };
 
   return (
@@ -74,9 +84,22 @@ const CharacterPlanner = props => {
         <Button name="save" onClick="">
           Save Character
         </Button>
-        <Button name="load" onClick="" isDisabled="true">
-          Load Character
-        </Button>
+        <Panel title="Presets">
+          {Array.isArray(props.characters) && props.characters.length > 0 ? (
+            props.characters.map(({ id, name }) => (
+              <div
+                className="Subinfo"
+                key={id}
+                id={id}
+                onClick={handleLoadPreset}
+              >
+                <p className="stat-value">{name}</p>
+              </div>
+            ))
+          ) : (
+            <p>No characters available</p>
+          )}
+        </Panel>
       </Panel>
       <Panel title="Base Stats">
         {Object.entries(baseStats)
@@ -94,7 +117,7 @@ const CharacterPlanner = props => {
               name={name}
               initCount={baseStats[name]}
               count={value}
-              onAlterStat={onAlterStat}
+              onAlterStat={handleAlterStat}
             />
           ))}
       </Panel>
@@ -103,12 +126,12 @@ const CharacterPlanner = props => {
         <Info
           name="runesToLevel"
           stat={level}
-          onCalculateStat={onCalculateStat}
+          onCalculateStat={handleCalculateStat}
         />
         <Info name="totalRunes" stat={totalRunes} />
       </Panel>
 
-      <Panel >
+      <Panel>
         {[
           { name: "hp", stat: currentStats.vig },
           { name: "fp", stat: currentStats.mind },
@@ -119,7 +142,7 @@ const CharacterPlanner = props => {
             key={name}
             name={name}
             stat={stat}
-            onCalculateStat={onCalculateStat}
+            onCalculateStat={handleCalculateStat}
           />
         ))}
         <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
@@ -127,12 +150,12 @@ const CharacterPlanner = props => {
         <Info
           name="poise"
           stat={calculatedStats.totalWeight}
-          onCalculateStat={onCalculateStat}
+          onCalculateStat={handleCalculateStat}
         />
         <Info
           name="discovery"
           stat={currentStats.arc}
-          onCalculateStat={onCalculateStat}
+          onCalculateStat={handleCalculateStat}
         />
       </Panel>
     </>
