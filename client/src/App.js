@@ -4,6 +4,7 @@ import CharacterPlanner from "./pages/CharacterPlanner";
 
 function App() {
   const [charClasses, setCharClasses] = useState(undefined);
+  const [characters, setCharacters] = useState(undefined);
 
   useEffect(() => {
     fetch("/classes")
@@ -11,15 +12,22 @@ function App() {
       .then(data => {
         setCharClasses(data);
       });
+
+    fetch("/characters")
+      .then(response => response.json())
+      .then(data => {
+        setCharacters(data.characters);
+      });
   }, []);
 
   return (
     <div className="App">
-      {typeof charClasses === "undefined" ? (
+      {typeof charClasses === "undefined" &&
+      typeof characters === "undefined" ? (
         <p>Loading</p>
       ) : (
         <LevelProvider>
-          <CharacterPlanner classes={charClasses} />
+          <CharacterPlanner classes={charClasses} characters={characters} />
         </LevelProvider>
       )}
     </div>
