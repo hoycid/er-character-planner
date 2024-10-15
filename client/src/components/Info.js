@@ -12,7 +12,7 @@ const Info = props => {
     } else {
       setBasicStat(stat);
     }
-  }, [stat, basicStat]);
+  }, [name, stat, basicStat]);
 
   return (
     <div className="Info">
