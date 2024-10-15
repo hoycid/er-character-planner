@@ -6,6 +6,7 @@ import Panel from "../components/Panel";
 import Counter from "../components/Counter";
 import Dropdown from "../components/Dropdown";
 import Info from "../components/Info";
+import Input from "../components/Input";
 import Button from "../components/Button";
 import { useLevel } from "../providers/LevelProvider";
 import Subinfo from "../components/Subinfo";
@@ -62,8 +63,9 @@ const CharacterPlanner = props => {
 
   return (
     <>
-      <Panel title="Base Stats">
+      <Panel>
         <h3>Level {level}</h3>
+        <Input name="Name" />
         <Dropdown
           name="Class"
           classes={CLASSES}
@@ -76,14 +78,14 @@ const CharacterPlanner = props => {
           Load Character
         </Button>
       </Panel>
-      <Panel>
+      <Panel title="Base Stats">
         {Object.entries(baseStats)
           .filter(([name]) => name !== "initLvl")
           .map(([name, value]) => (
             <Info key={name} name={name} stat={value} />
           ))}
       </Panel>
-      <Panel>
+      <Panel title="Current Stats">
         {Object.entries(currentStats)
           .filter(([name]) => name !== "initLvl")
           .map(([name, value]) => (
@@ -97,7 +99,7 @@ const CharacterPlanner = props => {
           ))}
       </Panel>
 
-      <Panel>
+      <Panel title="Runes required">
         <Info
           name="runesToLevel"
           stat={level}
@@ -106,7 +108,7 @@ const CharacterPlanner = props => {
         <Info name="totalRunes" stat={totalRunes} />
       </Panel>
 
-      <Panel>
+      <Panel >
         {[
           { name: "hp", stat: currentStats.vig },
           { name: "fp", stat: currentStats.mind },
