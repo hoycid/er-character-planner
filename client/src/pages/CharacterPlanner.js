@@ -6,14 +6,19 @@ import Panel from "../components/Panel";
 import Counter from "../components/Counter";
 import Dropdown from "../components/Dropdown";
 import Info from "../components/Info";
+import Button from "../components/Button";
 import { useLevel } from "../providers/LevelProvider";
 import Subinfo from "../components/Subinfo";
 
 import { calculateRunesToLevel } from "../services/calculateBaseStats";
 import CLASSES from "../utils/CLASSES";
 
-const CharacterPlanner = () => {
-  const [selectedClass, setSelectedClass] = useState(CLASSES.hero);
+const CharacterPlanner = props => {
+  const [selectedClass, setSelectedClass] = useState(
+    props.classes && Object.values(props.classes).length > 0
+      ? Object.values(props.classes)[0]
+      : CLASSES.hero
+  );
   const [baseStats, setBaseStats] = useState(selectedClass);
   const [currentStats, setCurrentStats] = useState(selectedClass);
   const [calculatedStats, setCalculatedStats] = useState({
@@ -26,7 +31,7 @@ const CharacterPlanner = () => {
     setBaseStats(selectedClass);
     setCurrentStats(selectedClass);
     setLevel(selectedClass.initLvl);
-  }, [selectedClass]);
+  }, [selectedClass, setLevel]);
 
   const onSelectClass = option => {
     setSelectedClass(CLASSES[option]);
@@ -64,6 +69,12 @@ const CharacterPlanner = () => {
           classes={CLASSES}
           onSelectClass={onSelectClass}
         />
+        <Button name="save" onClick="">
+          Save Character
+        </Button>
+        <Button name="load" onClick="" isDisabled="true">
+          Load Character
+        </Button>
       </Panel>
       <Panel>
         {Object.entries(baseStats)
