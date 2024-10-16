@@ -135,12 +135,10 @@ app.post("/characters", (req, res) => {
 
   const sql = `INSERT INTO characters(name, initLvl, startClass, vig, mind, end, str, dex, int, faith, arc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  let newId;
-
-  const data = {
+  const values = {
     name: req.body.name,
     initLvl: req.body.initLvl,
-    startClass: row.startClass,
+    startClass: req.body.startClass, 
     vig: req.body.vig,
     mind: req.body.mind,
     end: req.body.end,
@@ -152,18 +150,20 @@ app.post("/characters", (req, res) => {
   };
 
   try {
-    DB.run(sql, Object.values(data), function (err) {
-      if (err) throw err;
-      newId = this.lastID; // provides the auto-increment integer id
+    DB.run(sql, Object.values(values), function (err) {
+      if (err) {
+        res.status(468);
+        res.json({ code: 468, status: err.message });
+        return;
+      }
+      const newId = this.lastID; // Provides the auto-increment integer id
       res.status(201);
-      let data = { status: 201, message: `Character ${newId} saved` };
-      let content = JSON.stringify(data);
-      res.send(content);
+      res.json({ status: 201, message: `Character ${newId} saved` });
     });
   } catch (err) {
     console.log(err.message);
-    res.status(468);
-    res.send(`{"code": 468, "status" : "${err.message}"}`);
+    res.status(500);
+    res.json({ code: 500, status: err.message });
   }
 });
 
