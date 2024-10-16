@@ -27,15 +27,19 @@ const CharacterPlanner = props => {
     totalWeight: 0,
   });
   const [characterLoaded, setCharacterLoaded] = useState(false);
+  const [dropDownSelected, setDropDownSelected] = useState(
+    Object.keys(props.classes)[0]
+  );
   const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
   useEffect(() => {
     setBaseStats(selectedClass);
     setCurrentStats(selectedClass);
     setLevel(selectedClass.initLvl);
-  }, [selectedClass, setLevel]);
+  }, [selectedClass, setLevel, dropDownSelected]);
 
   const onSelectClass = option => {
+    setDropDownSelected(option);
     setSelectedClass(CLASSES[option]);
     setCurrentStats(CLASSES[option]);
   };
@@ -70,8 +74,17 @@ const CharacterPlanner = props => {
         // setCurrentStats(data);
         console.log(data);
         setCharacterLoaded(true);
+        // setDefaultSelect(data.startClass);
       });
   };
+
+  const handleNewCharacter = () => {
+    setDropDownSelected(Object.keys(props.classes)[0]);
+    setCharacterLoaded(false);
+    setSelectedClass(Object.values(props.classes)[0]);
+  };
+
+  const handleSaveCharacter = () => {};
 
   return (
     <>
@@ -83,11 +96,12 @@ const CharacterPlanner = props => {
           classes={CLASSES}
           onSelectClass={onSelectClass}
           isDisabled={characterLoaded}
+          selected={dropDownSelected}
         />
-        <Button name="new" onClick="">
+        <Button name="new" handleOnClick={handleNewCharacter}>
           New
         </Button>
-        <Button name="save" onClick="">
+        <Button name="save" handleOnClick={handleSaveCharacter}>
           Save
         </Button>
         <Panel title="Saved Characters">
