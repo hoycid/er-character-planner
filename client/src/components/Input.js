@@ -1,17 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Input = props => {
-  const { name } = props;
-  const [input, setInput] = useState("Tarnished");
+  const { name, value, onChangeName } = props;
+  const [input, setInput] = useState(props.value);
+
+  useEffect(() => {
+    setInput(props.value);
+  }, [props.value]);
 
   const handleOnChange = e => {
-    const val = e.target.value;
-    setInput(val);
+    const value = e.target.value;
+    setInput(value);
   };
 
   const handleOnBlur = () => {
     if (input === "") {
-      setInput(input);
+      setInput(value);
+    } else {
+      onChangeName(input);
     }
   };
 
@@ -20,7 +26,6 @@ const Input = props => {
       <label>{name}</label>
       <input
         name={name}
-        id={name}
         onChange={handleOnChange}
         value={input}
         onBlur={handleOnBlur}
