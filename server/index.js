@@ -68,6 +68,7 @@ app.get("/characters/:id", (req, res) => {
           id: row.id,
           name: row.name,
           initLvl: row.initLvl,
+          startClass: row.startClass,
           vig: row.vig,
           mind: row.mind,
           end: row.end,
@@ -108,6 +109,7 @@ app.get("/characters", (req, res) => {
           id: row.id,
           name: row.name,
           initLvl: row.initLvl,
+          startClass: row.startClass,
           vig: row.vig,
           mind: row.mind,
           end: row.end,
@@ -131,13 +133,14 @@ app.get("/characters", (req, res) => {
 app.post("/characters", (req, res) => {
   res.set("content-type", "application/json");
 
-  const sql = `INSERT INTO characters(name, initLvl, vig, mind, end, str, dex, int, faith, arc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  const sql = `INSERT INTO characters(name, initLvl, startClass, vig, mind, end, str, dex, int, faith, arc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   let newId;
 
-  const values = {
+  const data = {
     name: req.body.name,
     initLvl: req.body.initLvl,
+    startClass: row.startClass,
     vig: req.body.vig,
     mind: req.body.mind,
     end: req.body.end,
@@ -149,7 +152,7 @@ app.post("/characters", (req, res) => {
   };
 
   try {
-    DB.run(sql, Object.values(values), function (err) {
+    DB.run(sql, Object.values(data), function (err) {
       if (err) throw err;
       newId = this.lastID; // provides the auto-increment integer id
       res.status(201);
