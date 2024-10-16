@@ -7,13 +7,13 @@ const Dropdown = props => {
     <div className="Dropdown">
       <label>{props.name}</label>
       {props.isDisabled ? (
-        <select onChange={handleChange} disabled>
+        <select value={props.selected} onChange={handleChange} disabled>
           {Object.keys(props.classes).map(key => (
             <option key={key}>{key}</option>
           ))}
         </select>
       ) : (
-        <select onChange={handleChange}>
+        <select value={props.selected} onChange={handleChange}>
           {Object.keys(props.classes).map(key => (
             <option key={key}>{key}</option>
           ))}
