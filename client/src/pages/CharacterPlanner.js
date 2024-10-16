@@ -81,10 +81,13 @@ const CharacterPlanner = props => {
           classes={CLASSES}
           onSelectClass={onSelectClass}
         />
-        <Button name="save" onClick="">
-          Save Character
+        <Button name="new" onClick="">
+          New
         </Button>
-        <Panel title="Presets">
+        <Button name="save" onClick="">
+          Save
+        </Button>
+        <Panel title="Saved Characters">
           {Array.isArray(props.characters) && props.characters.length > 0 ? (
             props.characters.map(({ id, name }) => (
               <div
