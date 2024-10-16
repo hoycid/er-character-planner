@@ -30,13 +30,14 @@ const CharacterPlanner = props => {
   const [dropDownSelected, setDropDownSelected] = useState(
     Object.keys(props.classes)[0]
   );
+  const [nameInput, setNameInput] = useState("Tarnished");
   const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
   useEffect(() => {
     setBaseStats(selectedClass);
     setCurrentStats(selectedClass);
     setLevel(selectedClass.initLvl);
-  }, [selectedClass, setLevel, dropDownSelected]);
+  }, [selectedClass, setLevel, dropDownSelected, characterLoaded]);
 
   const onSelectClass = option => {
     setDropDownSelected(option);
@@ -71,10 +72,13 @@ const CharacterPlanner = props => {
     fetch(`/characters/${id}`)
       .then(response => response.json())
       .then(data => {
-        // setCurrentStats(data);
-        console.log(data);
+        const { id, name, startClass, ...filteredData } = data;
+        setSelectedClass(filteredData);
+        setBaseStats(filteredData);
+        setCurrentStats(filteredData);
         setCharacterLoaded(true);
-        // setDefaultSelect(data.startClass);
+        setDropDownSelected(data.startClass);
+        setNameInput(data.name);
       });
   };
 
@@ -82,15 +86,20 @@ const CharacterPlanner = props => {
     setDropDownSelected(Object.keys(props.classes)[0]);
     setCharacterLoaded(false);
     setSelectedClass(Object.values(props.classes)[0]);
+    setNameInput("Tarnished");
   };
 
   const handleSaveCharacter = () => {};
+
+  const handleChangeName = value => {
+    setNameInput(value);
+  };
 
   return (
     <>
       <Panel>
         <h3>Level {level}</h3>
-        <Input name="Name" />
+        <Input name="Name" value={nameInput} onChangeName={handleChangeName} />
         <Dropdown
           name="Class"
           classes={CLASSES}
