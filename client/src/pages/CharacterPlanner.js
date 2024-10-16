@@ -26,6 +26,7 @@ const CharacterPlanner = props => {
     equipload: "Light load",
     totalWeight: 0,
   });
+  const [characterLoaded, setCharacterLoaded] = useState(false);
   const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const CharacterPlanner = props => {
       .then(data => {
         // setCurrentStats(data);
         console.log(data);
+        setCharacterLoaded(true);
       });
   };
 
@@ -80,6 +82,7 @@ const CharacterPlanner = props => {
           name="Class"
           classes={CLASSES}
           onSelectClass={onSelectClass}
+          isDisabled={characterLoaded}
         />
         <Button name="new" onClick="">
           New
