@@ -9,7 +9,7 @@ const Info = props => {
     const newStat = calculateBaseStats(name, stat);
     setBasicStat(newStat);
     onCalculateStat(name, newStat);
-  }, [name, stat, basicStat]);
+  }, [name, stat]);
 
   return (
     <div className="Info">
