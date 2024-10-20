@@ -2,24 +2,42 @@
     "version": 2,
     "builds": [
       {
-        "src": "client/package.json",
-        "use": "@vercel/static-build",
+        "src": "client/package.json",          
+        "use": "@vercel/static-build",         
         "config": {
-          "distDir": "client/build"
+          "distDir": "client/build"            
         }
       },
       {
-        "src": "server/api/index.js",
-        "use": "@vercel/node"
+        "src": "server/api/index.js",          
+        "use": "@vercel/node"                  
       }
     ],
     "routes": [
       {
-        "src": "/api/(.*)",
+        "src": "/api/classes",                 
+        "dest": "/server/api/index.js"         
+      },
+      {
+        "src": "/api/characters",              
         "dest": "/server/api/index.js"
       },
       {
-        "src": "/(.*)",
+        "src": "/api/characters/(.*)",         
+        "dest": "/server/api/index.js"
+      },
+      {
+        "src": "/api/characters",              
+        "methods": ["POST"],                   
+        "dest": "/server/api/index.js"
+      },
+      {
+        "src": "/api/characters/(.*)",         
+        "methods": ["DELETE"],                 
+        "dest": "/server/api/index.js"
+      },
+      {
+        "src": "/(.*)",                        
         "dest": "/client/build/$1"
       }
     ]
