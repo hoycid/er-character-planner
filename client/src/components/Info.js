@@ -6,7 +6,9 @@ const Info = props => {
   const [basicStat, setBasicStat] = useState(stat);
 
   useEffect(() => {
-    setBasicStat(calculateBaseStats(name, stat));
+    const newStat = calculateBaseStats(name, stat);
+    setBasicStat(newStat);
+    onCalculateStat(name, newStat);
   }, [name, stat, onCalculateStat]);
 
   return (
