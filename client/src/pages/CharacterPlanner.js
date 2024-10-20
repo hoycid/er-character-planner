@@ -135,7 +135,7 @@ const CharacterPlanner = props => {
         {Object.entries(baseStats)
           .filter(([name]) => name !== "initLvl")
           .map(([name, value]) => (
-            <Info key={name} name={name} stat={value} />
+            <SimpleInfo key={name} name={name} stat={value} />
           ))}
       </Panel>
       <Panel title="Current Stats">
@@ -177,10 +177,9 @@ const CharacterPlanner = props => {
         ))}
         <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
 
-        <Info
+        <Subinfo
           name="poise"
           stat={calculatedStats.totalWeight}
-          onCalculateStat={handleCalculateStat}
         />
         <Info
           name="discovery"
