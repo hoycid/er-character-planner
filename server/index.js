@@ -1,4 +1,4 @@
-import { DB } from "../connect.js";
+import { DB } from "./connect.js";
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -138,7 +138,7 @@ app.post("/characters", (req, res) => {
   const values = {
     name: req.body.name,
     initLvl: req.body.initLvl,
-    startClass: req.body.startClass, 
+    startClass: req.body.startClass,
     vig: req.body.vig,
     mind: req.body.mind,
     end: req.body.end,

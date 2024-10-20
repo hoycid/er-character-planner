@@ -70,7 +70,7 @@ const CharacterPlanner = props => {
 
   const handleLoadPreset = e => {
     const id = e.target.id;
-    fetch(`/api/characters/${id}`)
+    fetch(`/characters/${id}`)
       .then(response => response.json())
       .then(data => {
         const { id, name, startClass, ...filteredData } = data;
@@ -177,9 +177,10 @@ const CharacterPlanner = props => {
         ))}
         <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
 
-        <Subinfo
+        <Info
           name="poise"
           stat={calculatedStats.totalWeight}
+          onCalculateStat={handleCalculateStat}
         />
         <Info
           name="discovery"

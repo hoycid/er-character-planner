@@ -27,7 +27,6 @@ let sql = `CREATE TABLE IF NOT EXISTS characters(
 const DB = new sqlite3.Database("./mydata.db", sqlite3.OPEN_READWRITE, connected);
 
 DB.run(sql, [], err => {
-  //callback function
   if (err) {
     console.log("Error creating characters table");
     return;
