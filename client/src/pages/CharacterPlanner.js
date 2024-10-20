@@ -34,8 +34,6 @@ const CharacterPlanner = props => {
   const [nameInput, setNameInput] = useState("Tarnished");
   const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
-  const API_URL = process.env.REACT_APP_API_URL;
-
   useEffect(() => {
     setBaseStats(selectedClass);
     setCurrentStats(selectedClass);
@@ -72,7 +70,9 @@ const CharacterPlanner = props => {
 
   const handleLoadPreset = e => {
     const id = e.target.id;
-    fetch(`${API_URL}/characters/${id}`)
+    fetch(
+      `https://er-character-planner-production.up.railway.app/characters/${id}`
+    )
       .then(response => response.json())
       .then(data => {
         const { id, name, startClass, ...filteredData } = data;
