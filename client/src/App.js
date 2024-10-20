@@ -7,18 +7,21 @@ function App() {
   const [characters, setCharacters] = useState(undefined);
 
   useEffect(() => {
-    fetch("er-character-planner-production.up.railway.app/classes")
+    fetch("/classes")
       .then(response => response.json())
       .then(data => {
         setCharClasses(data);
       });
 
-    fetch("er-character-planner-production.up.railway.app/characters")
+    fetch("/characters")
       .then(response => response.json())
       .then(data => {
         setCharacters(data.characters);
       });
   }, []);
+
+  console.log(charClasses)
+  console.log(characters)
 
   return (
     <div className="App">
@@ -27,7 +30,7 @@ function App() {
         <p>Loading</p>
       ) : (
         <LevelProvider>
-          <CharacterPlanner classes={charClasses} characters={characters} />
+          {/* <CharacterPlanner classes={charClasses} characters={characters} /> */}
         </LevelProvider>
       )}
     </div>

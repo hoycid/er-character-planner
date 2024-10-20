@@ -70,7 +70,7 @@ const CharacterPlanner = props => {
 
   const handleLoadPreset = e => {
     const id = e.target.id;
-    fetch(`er-character-planner-production.up.railway.app/characters/${id}`)
+    fetch(`/characters/${id}`)
       .then(response => response.json())
       .then(data => {
         const { id, name, startClass, ...filteredData } = data;
