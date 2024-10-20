@@ -7,13 +7,13 @@ function App() {
   const [characters, setCharacters] = useState(undefined);
 
   useEffect(() => {
-    fetch("/classes")
+    fetch("https://er-character-planner-production.up.railway.app/classes")
       .then(response => response.json())
       .then(data => {
         setCharClasses(data);
       });
 
-    fetch("/characters")
+    fetch("https://er-character-planner-production.up.railway.app/characters")
       .then(response => response.json())
       .then(data => {
         setCharacters(data.characters);
