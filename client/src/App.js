@@ -20,9 +20,6 @@ function App() {
       });
   }, []);
 
-  console.log(charClasses)
-  console.log(characters)
-
   return (
     <div className="App">
       {typeof charClasses === "undefined" &&
@@ -30,7 +27,7 @@ function App() {
         <p>Loading</p>
       ) : (
         <LevelProvider>
-          {/* <CharacterPlanner classes={charClasses} characters={characters} /> */}
+          <CharacterPlanner classes={charClasses} characters={characters} />
         </LevelProvider>
       )}
     </div>
