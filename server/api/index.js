@@ -1,4 +1,4 @@
-import { DB } from "./api/connect.js";
+import { DB } from "../connect.js";
 
 import express from "express";
 import bodyParser from "body-parser";
