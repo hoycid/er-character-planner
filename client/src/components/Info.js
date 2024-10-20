@@ -5,10 +5,16 @@ const Info = props => {
   const { name, stat, onCalculateStat } = props;
   const [basicStat, setBasicStat] = useState(stat);
 
+  const isCalculatingStats = onCalculateStat ? true : false;
+
+  const calculateStats = () => {
+    onCalculateStat(name, basicStat);
+  };
+
   useEffect(() => {
-    if (onCalculateStat) {
+    if (isCalculatingStats) {
       setBasicStat(calculateBaseStats(name, stat));
-      onCalculateStat(name, basicStat);
+      calculateStats();
     } else {
       setBasicStat(stat);
     }
