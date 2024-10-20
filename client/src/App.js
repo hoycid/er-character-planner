@@ -7,13 +7,13 @@ function App() {
   const [characters, setCharacters] = useState(undefined);
 
   useEffect(() => {
-    fetch("/classes")
+    fetch("/api/classes")
       .then(response => response.json())
       .then(data => {
         setCharClasses(data);
       });
 
-    fetch("/characters")
+    fetch("/api/characters")
       .then(response => response.json())
       .then(data => {
         setCharacters(data.characters);

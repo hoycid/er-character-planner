@@ -69,7 +69,7 @@ const CharacterPlanner = props => {
 
   const handleLoadPreset = e => {
     const id = e.target.id;
-    fetch(`/characters/${id}`)
+    fetch(`/api/characters/${id}`)
       .then(response => response.json())
       .then(data => {
         const { id, name, startClass, ...filteredData } = data;
