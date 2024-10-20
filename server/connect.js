@@ -24,7 +24,7 @@ let sql = `CREATE TABLE IF NOT EXISTS characters(
   arc INTEGER NOT NULL
 )`;
 
-const DB = new sql3.Database("./mydata.db", sqlite3.OPEN_READWRITE, connected);
+const DB = new sql3.Database("./api/mydata.db", sqlite3.OPEN_READWRITE, connected);
 
 DB.run(sql, [], err => {
   //callback function
