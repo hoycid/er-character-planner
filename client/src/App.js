@@ -6,14 +6,16 @@ function App() {
   const [charClasses, setCharClasses] = useState(undefined);
   const [characters, setCharacters] = useState(undefined);
 
+  const API_URL = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
-    fetch("https://er-character-planner-production.up.railway.app/classes")
+    fetch(`${API_URL}/classes`)
       .then(response => response.json())
       .then(data => {
         setCharClasses(data);
       });
 
-    fetch("https://er-character-planner-production.up.railway.app/characters")
+    fetch(`${API_URL}/characters`)
       .then(response => response.json())
       .then(data => {
         setCharacters(data.characters);
