@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import calculateBaseStats from "../services/calculateBaseStats";
 
-const Info = props => {
-  const { name, stat, onCalculateStat } = props;
+const SimpleInfo = props => {
+  const { name, stat } = props;
   const [basicStat, setBasicStat] = useState(stat);
 
   useEffect(() => {
-    setBasicStat(calculateBaseStats(name, stat));
-  }, [name, stat, onCalculateStat]);
+    setBasicStat(stat);
+  }, [name, stat]);
 
   return (
     <div className="Info">
@@ -17,4 +17,4 @@ const Info = props => {
   );
 };
 
-export default Info;
+export default SimpleInfo;

@@ -13,6 +13,7 @@ import Subinfo from "../components/Subinfo";
 
 import { calculateRunesToLevel } from "../services/calculateBaseStats";
 import CLASSES from "../utils/CLASSES";
+import SimpleInfo from "../components/SimpleInfo";
 
 const CharacterPlanner = props => {
   const [selectedClass, setSelectedClass] = useState(
@@ -157,7 +158,7 @@ const CharacterPlanner = props => {
           stat={level}
           onCalculateStat={handleCalculateStat}
         />
-        <Info name="totalRunes" stat={totalRunes} />
+        <SimpleInfo name="totalRunes" stat={totalRunes} />
       </Panel>
 
       <Panel>
