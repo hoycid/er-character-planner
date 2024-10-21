@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       {typeof charClasses === "undefined" &&
       typeof characters === "undefined" ? (
-        <p>Loading</p>
+        <p>Loading...</p>
       ) : (
         <LevelProvider>
           <CharacterPlanner classes={charClasses} characters={characters} />
