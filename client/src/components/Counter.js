@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLevel } from "../providers/LevelProvider";
+import Button from "./Button";
 
 const Counter = props => {
   const [count, setCount] = useState(Number(props.count));
@@ -59,7 +60,7 @@ const Counter = props => {
   return (
     <div className="Counter">
       <label>{props.name}</label>
-      <button onClick={decreaseCount}>-</button>
+      <Button onClick={decreaseCount}>-</Button>
       <input
         className="stat-value"
         id={props.name}
@@ -69,7 +70,7 @@ const Counter = props => {
         }}
         onBlur={onBlurHandler}
       />
-      <button onClick={increaseCount}>+</button>
+      <Button onClick={increaseCount}>+</Button>
     </div>
   );
 };

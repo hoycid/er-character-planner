@@ -100,6 +100,9 @@ const CharacterPlanner = props => {
 
   return (
     <>
+      <header class="header">
+        <h1 className="header-title">Elden Ring Character Planner</h1>
+      </header>
       <Panel>
         <h3>Level {level}</h3>
         <Input name="Name" value={nameInput} onChangeName={handleChangeName} />
@@ -110,17 +113,17 @@ const CharacterPlanner = props => {
           isDisabled={characterLoaded}
           selected={dropDownSelected}
         />
-        <Button name="new" handleOnClick={handleNewCharacter}>
+        <Button name="new" onClick={handleNewCharacter}>
           New
         </Button>
-        <Button name="save" handleOnClick={handleSaveCharacter}>
+        <Button name="save" onClick={handleSaveCharacter}>
           Save
         </Button>
         <Panel title="Saved Characters">
           {Array.isArray(props.characters) && props.characters.length > 0 ? (
             props.characters.map(({ id, name }) => (
               <div
-                className="Subinfo"
+                className="Button"
                 key={id}
                 id={id}
                 onClick={handleLoadPreset}

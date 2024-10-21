@@ -1,5 +1,5 @@
 const Button = props => {
-  const { name, handleOnClick, children, isDisabled } = props;
+  const { name, onClick, children, isDisabled } = props;
 
   return (
     <>
@@ -8,7 +8,7 @@ const Button = props => {
           {children}
         </button>
       ) : (
-        <button name={name} onClick={handleOnClick}>
+        <button className="Button" name={name} onClick={onClick}>
           {children}
         </button>
       )}

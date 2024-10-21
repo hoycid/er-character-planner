@@ -1,22 +1,52 @@
 /* Main App Container */
+html {
+  background-image: url("../resources/images/liurnia.webp"); /* Specify the path to your image */
+  background-size: cover; /* Scale the background image to cover the entire element */
+  background-repeat: no-repeat; /* Prevent the background from repeating */
+  background-position: center; /* Center the background image */
+  height: 100vh; /* Set a height for the element */
+  width: 100%; /* Set a width for the element */
+}
+
 .App {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
   padding: 20px;
-  background-color: #f5f5f5;
-  font-family: Arial, sans-serif;
+  padding-top: 5%;
+  color: #e0e0e0; /* Light text color for contrast */
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.header {
+  background-color: rgba(42, 42, 42, 0.8); /* Darker background with transparency */
+  color: #e0e0e0; /* Light text color */
+  padding: 20px; /* Space around the content */
+  text-align: center; /* Center the text */
+  position: fixed; /* Fixes the header to the top */
+  width: 100%; /* Make it full width */
+  top: 0; /* Align it to the top */
+  z-index: 1000; /* Ensure it stays above other content */
+  border: 1px solid #444; /* Darker border */
+  border-top: none;
+  border-radius: 8px;
+}
+
+.header-title {
+  font-size: 2rem; /* Adjust font size as needed */
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  margin: 0; /* Remove default margin */
 }
 
 /* Panels Container */
 .Panel {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
+  background-color: #1e1e1e; /* Dark panel background */
+  border: 1px solid #444; /* Darker border */
   border-radius: 8px;
   padding: 20px;
   margin: 10px;
   width: 300px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Darker shadow */
 }
 
 /* Title Styling */
@@ -24,7 +54,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 15px;
-  color: #333;
+  color: #ffffff; /* White title text for contrast */
 }
 
 /* Dropdown Styling */
@@ -34,40 +64,117 @@
 }
 
 /* Info and Counter Components */
-.Info, .Counter, .Subinfo {
+.Info,
+.Counter,
+.Subinfo {
   display: flex;
   justify-content: space-between;
   padding: 10px 15px;
   margin: 5px 0;
-  background-color: #f9f9f9;
-  border: 1px solid #eaeaea;
+  background-color: #2a2a2a; /* Darker background for info panels */
+  border: 1px solid #444; /* Dark border for contrast */
   border-radius: 5px;
+  height: 35px;
 }
 
 /* Individual Info Item Styling */
-.Info span, .Counter span, .Subinfo span {
+.Info span,
+.Counter span,
+.Subinfo span {
   font-size: 16px;
-  color: #555;
+  color: #e0e0e0; /* Light text color for better visibility */
 }
 
 /* Specific Stat Values */
-.Info .stat-value, .Counter .stat-value, .Subinfo .stat-value {
+.Info .stat-value,
+.Counter .stat-value,
+.Subinfo .stat-value,
+.Button {
   font-weight: bold;
-  color: #333;
+  color: #ffffff; /* White for stat values */
+}
+
+.Counter input {
+  background-color: #1e1e1e; /* Dark background for input */
+  color: #e0e0e0; /* Light text color */
+  border: 1px solid #444; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 5px; /* Padding inside the input */
+  width: 50%; /* Adjust width as needed */
 }
 
 /* Hover and Interaction States */
-.Info:hover, .Counter:hover, .Subinfo:hover {
-  background-color: #e0f7fa;
-  border-color: #b2ebf2;
+.Counter input:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
+  cursor: pointer;
+}
+
+.Input label {
+  margin-right: 4px; /* Adjust the margin as needed */
+  font-size: 14px; /* Optional: adjust font size for better readability */
+  color: #e0e0e0; /* Light color for contrast */
+}
+
+.Input input {
+  background-color: #1e1e1e; /* Dark background for input */
+  color: #e0e0e0; /* Light text color */
+  border: 1px solid #444; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 5px; /* Padding inside the input */
+  width: 50%; /* Adjust width as needed */
+}
+
+/* Hover and Interaction States */
+.Input input:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
+  cursor: pointer;
+}
+
+.Dropdown label {
+  margin-right: 4px; /* Adjust the margin as needed */
+  font-size: 14px; /* Optional: adjust font size for better readability */
+  color: #e0e0e0; /* Light color for contrast */
+}
+
+.Dropdown select {
+  background-color: #1e1e1e; /* Dark background for input */
+  color: #e0e0e0; /* Light text color */
+  border: 1px solid #444; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 5px; /* Padding inside the input */
+  width: 50%; /* Adjust width as needed */
+}
+
+/* Hover and Interaction States */
+.Dropdown select:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
+  cursor: pointer;
+}
+
+.Button {
+  justify-content: space-between;
+  padding: 10px 15px;
+  margin: 2px;
+  background-color: #2a2a2a; /* Darker background for info panels */
+  border: 1px solid #444; /* Dark border for contrast */
+  border-radius: 5px;
+  align-items: center;
+}
+
+.Button:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
   cursor: pointer;
 }
 
 /* Panel Layout Adjustments */
 .Panel:first-of-type {
   width: 350px;
-  background-color: #f0f0f0;
-  border-color: #ccc;
+  background-color: #2c2c2c; /* Darker background for the first panel */
+  border-color: #555; /* Slightly lighter border */
 }
 
 /* Adjustments for Info Panels */
@@ -83,7 +190,7 @@
     flex-direction: column;
     align-items: center;
   }
-  
+
   .Panel {
     width: 90%;
     margin: 10px 0;

@@ -22,7 +22,7 @@ const Input = props => {
   };
 
   return (
-    <>
+    <div className="Input">
       <label>{name}</label>
       <input
         name={name}
@@ -30,7 +30,7 @@ const Input = props => {
         value={input}
         onBlur={handleOnBlur}
       />
-    </>
+    </div>
   );
 };
 
