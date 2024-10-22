@@ -13,13 +13,17 @@ html {
   justify-content: space-around;
   align-items: flex-start;
   padding: 20px;
-  padding-top: 5%;
   color: #e0e0e0; /* Light text color for contrast */
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 }
 
 .header {
-  background-color: rgba(42, 42, 42, 0.8); /* Darker background with transparency */
+  background-color: rgba(
+    42,
+    42,
+    42,
+    0.8
+  ); /* Darker background with transparency */
   color: #e0e0e0; /* Light text color */
   padding: 20px; /* Space around the content */
   text-align: center; /* Center the text */
@@ -34,7 +38,7 @@ html {
 
 .header-title {
   font-size: 2rem; /* Adjust font size as needed */
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   margin: 0; /* Remove default margin */
 }
 
@@ -89,10 +93,46 @@ html {
 .Info .stat-value,
 .Counter .stat-value,
 .Subinfo .stat-value,
-.Button {
+.Button,
+.Icon {
   font-weight: bold;
   color: #ffffff; /* White for stat values */
 }
+
+.Pill {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 15px;
+  margin: 2px;
+  background-color: #2a2a2a; /* Darker background for info panels */
+  border: 1px solid #444; /* Dark border for contrast */
+  border-radius: 5px;
+  align-items: center;
+}
+
+.Pill p {
+  display: inline;
+  margin: 0; /* Ensure no extra margin is added */
+}
+
+.Pill button {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-left: auto; /* Pushes the button to the right */
+  background-color: #2a2a2a; /* Darker background for info panels */
+  border: 1px solid #444; /* Dark border for contrast */
+  border-radius: 5px;
+  font-weight: bold;
+  color: #ffffff; /* White for stat values */
+}
+
+.Pill button:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
+  cursor: pointer;
+}
+
+
 
 .Counter input {
   background-color: #1e1e1e; /* Dark background for input */
@@ -100,7 +140,8 @@ html {
   border: 1px solid #444; /* Border color */
   border-radius: 4px; /* Rounded corners */
   padding: 5px; /* Padding inside the input */
-  width: 50%; /* Adjust width as needed */
+  width: 25px; /* Adjust width as needed */
+  text-align: center;
 }
 
 /* Hover and Interaction States */
@@ -108,6 +149,12 @@ html {
   background-color: #3a3a3a; /* Slightly lighter on hover */
   border-color: #666; /* Lighter border on hover */
   cursor: pointer;
+}
+
+.Group {
+  display: flex; /* Enables flexbox layout */
+  justify-content: flex-start; /* Align items to the start (you can use space-between or center as needed) */
+  align-items: center; /* Vertically center the items if they have different heights */
 }
 
 .Input label {
@@ -186,6 +233,15 @@ html {
 
 /* Responsive Design for Smaller Screens */
 @media (max-width: 768px) {
+  html {
+    background-image: url("../resources/images/liurnia.webp"); /* Specify the path to your image */
+    background-size: cover; /* Scale the background image to cover the entire element */
+    background-repeat: no-repeat; /* Prevent the background from repeating */
+    background-position: center; /* Center the background image */
+    height: 400vh; /* Set a height for the element */
+    width: 100%; /* Set a width for the element */
+  }
+  
   .App {
     flex-direction: column;
     align-items: center;
