@@ -68,8 +68,7 @@ const CharacterPlanner = props => {
     setTotalRunes(runes);
   };
 
-  const handleLoadPreset = e => {
-    const id = e.target.id;
+  const handleLoadPreset = id => {
     fetch(
       `https://er-character-planner-production.up.railway.app/characters/${id}`
     )
@@ -92,7 +91,60 @@ const CharacterPlanner = props => {
     setNameInput("Tarnished");
   };
 
-  const handleSaveCharacter = () => {};
+  const handleDeletePreset = id => {
+    fetch(
+      `https://er-character-planner-production.up.railway.app/characters/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(() => {
+        props.onDeleteCharacter(id);
+      })
+      .catch(error => {
+        console.error("Error deleting character:", error);
+      });
+  };
+
+  const handleSaveCharacter = () => {
+    const characterData = {
+      name: nameInput,
+      initLvl: currentStats.initLvl,
+      startClass: dropDownSelected,
+      vig: currentStats.vig,
+      mind: currentStats.mind,
+      end: currentStats.end,
+      str: currentStats.str,
+      dex: currentStats.dex,
+      int: currentStats.int,
+      faith: currentStats.faith,
+      arc: currentStats.arc,
+    };
+
+    fetch(
+      "https://er-character-planner-production.up.railway.app/characters/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(characterData),
+      }
+    )
+      .then(response => response.json())
+      .then(() => {
+        props.onSaveCharacter(characterData);
+      })
+      .catch(error => {
+        console.error("Error saving character:", error);
+      });
+  };
 
   const handleChangeName = value => {
     setNameInput(value);
@@ -100,10 +152,7 @@ const CharacterPlanner = props => {
 
   return (
     <>
-      <header class="header">
-        <h1 className="header-title">Elden Ring Character Planner</h1>
-      </header>
-      <Panel>
+      <Panel title="Elden Ring Character Planner">
         <h3>Level {level}</h3>
         <Input name="Name" value={nameInput} onChangeName={handleChangeName} />
         <Dropdown
@@ -121,14 +170,11 @@ const CharacterPlanner = props => {
         </Button>
         <Panel title="Saved Characters">
           {Array.isArray(props.characters) && props.characters.length > 0 ? (
-            props.characters.map(({ id, name }) => (
-              <div
-                className="Button"
-                key={id}
-                id={id}
-                onClick={handleLoadPreset}
-              >
+            props.characters.map(({ name, id }) => (
+              <div className="Pill" key={`${id}-${name}`}>
                 <p className="stat-value">{name}</p>
+                <button onClick={() => handleLoadPreset(id)}>Load</button>
+                <button onClick={() => handleDeletePreset(id)}>Delete</button>
               </div>
             ))
           ) : (
@@ -136,26 +182,28 @@ const CharacterPlanner = props => {
           )}
         </Panel>
       </Panel>
-      <Panel title="Base Stats">
-        {Object.entries(baseStats)
-          .filter(([name]) => name !== "initLvl")
-          .map(([name, value]) => (
-            <SimpleInfo key={name} name={name} stat={value} />
-          ))}
-      </Panel>
-      <Panel title="Current Stats">
-        {Object.entries(currentStats)
-          .filter(([name]) => name !== "initLvl")
-          .map(([name, value]) => (
-            <Counter
-              key={name}
-              name={name}
-              initCount={baseStats[name]}
-              count={value}
-              onAlterStat={handleAlterStat}
-            />
-          ))}
-      </Panel>
+      <div className="Group">
+        <Panel title="Base Stats">
+          {Object.entries(baseStats)
+            .filter(([name]) => name !== "initLvl")
+            .map(([name, value]) => (
+              <SimpleInfo key={name} name={name} stat={value} />
+            ))}
+        </Panel>
+        <Panel title="Current Stats">
+          {Object.entries(currentStats)
+            .filter(([name]) => name !== "initLvl")
+            .map(([name, value]) => (
+              <Counter
+                key={name}
+                name={name}
+                initCount={baseStats[name]}
+                count={value}
+                onAlterStat={handleAlterStat}
+              />
+            ))}
+        </Panel>
+      </div>
 
       <Panel title="Runes required">
         <Info

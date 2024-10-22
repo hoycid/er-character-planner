@@ -6,19 +6,55 @@ function App() {
   const [charClasses, setCharClasses] = useState(undefined);
   const [characters, setCharacters] = useState(undefined);
 
-  useEffect(() => {
-    fetch("https://er-character-planner-production.up.railway.app/classes")
-      .then(response => response.json())
-      .then(data => {
-        setCharClasses(data);
-      });
+  const handleSaveCharacter = char => {
+    setCharacters(prevCharacters => [...prevCharacters, char]);
+  };
 
-    fetch("https://er-character-planner-production.up.railway.app/characters")
-      .then(response => response.json())
-      .then(data => {
-        setCharacters(data.characters);
-      });
-  }, []);
+  const handleDeleteCharacter = char => {
+    setCharacters(prevCharacters =>
+      prevCharacters.filter(character => character.id !== char.id)
+    );
+  };
+
+  const fetchCharClasses = async () => {
+    try {
+      const response = await fetch(
+        "https://er-character-planner-production.up.railway.app/classes"
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching classes: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setCharClasses(data);
+    } catch (error) {
+      console.error("Error fetching character classes:", error);
+    }
+  };
+
+  const fetchCharacters = async () => {
+    try {
+      const response = await fetch(
+        "https://er-character-planner-production.up.railway.app/characters"
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error fetching characters: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      setCharacters(data.characters);
+    } catch (error) {
+      console.error("Error fetching characters:", error);
+    }
+  };
+
+  // Call the fetch functions as needed (e.g., in useEffect)
+  useEffect(() => {
+    fetchCharClasses();
+    fetchCharacters();
+  }, [characters]);
 
   return (
     <div className="App">
@@ -27,7 +63,12 @@ function App() {
         <p>Loading...</p>
       ) : (
         <LevelProvider>
-          <CharacterPlanner classes={charClasses} characters={characters} />
+          <CharacterPlanner
+            classes={charClasses}
+            characters={characters}
+            onSaveCharacter={handleSaveCharacter}
+            onDeleteCharacter={handleDeleteCharacter}
+          />
         </LevelProvider>
       )}
     </div>
