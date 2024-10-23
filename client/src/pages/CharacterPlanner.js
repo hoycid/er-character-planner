@@ -16,6 +16,7 @@ import CLASSES from "../utils/CLASSES";
 import SimpleInfo from "../components/SimpleInfo";
 
 const CharacterPlanner = props => {
+  const [classesNames, setClassesNames] = useState([]);
   const [selectedClass, setSelectedClass] = useState(
     props.classes && Object.values(props.classes).length > 0
       ? Object.values(props.classes)[0]
@@ -28,22 +29,74 @@ const CharacterPlanner = props => {
     totalWeight: 0,
   });
   const [characterLoaded, setCharacterLoaded] = useState(false);
-  const [dropDownSelected, setDropDownSelected] = useState(
-    Object.keys(props.classes)[0]
+  const [classDropDownSelected, setClassDropDownSelected] = useState(
+    classesNames[0]
   );
+  const [helmDropDownSelected, setHelmDropDownSelected] = useState("");
+  const [chestDropDownSelected, setChestDropDownSelected] = useState("");
+  const [gauntletsDropDownSelected, setGauntletsDropDownSelected] =
+    useState("");
+  const [legsDropDownSelected, setLegsDropDownSelected] = useState("");
+
   const [nameInput, setNameInput] = useState("Tarnished");
+  const [helms, setHelms] = useState([]);
+  const [legArmors, setLegArmors] = useState([]);
+  const [chestArmors, setChestArmors] = useState([]);
+  const [gauntlets, setGauntlets] = useState([]);
   const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
 
   useEffect(() => {
     setBaseStats(selectedClass);
     setCurrentStats(selectedClass);
     setLevel(selectedClass.initLvl);
-  }, [selectedClass, setLevel, dropDownSelected, characterLoaded]);
+    setClassesNames(Object.keys(props.classes));
+    if (props.armors.length > 0) {
+      setHelms(
+        props.armors
+          .filter(item => item.category === "Helm")
+          .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
+      );
+
+      setChestArmors(
+        props.armors
+          .filter(item => item.category === "Chest Armor")
+          .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
+      );
+
+      setGauntlets(
+        props.armors
+          .filter(item => item.category === "Gauntlets")
+          .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
+      );
+
+      setLegArmors(
+        props.armors
+          .filter(item => item.category === "Leg Armor")
+          .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
+      );
+    }
+  }, [selectedClass, setLevel, classDropDownSelected, characterLoaded]);
 
   const onSelectClass = option => {
-    setDropDownSelected(option);
+    setClassDropDownSelected(option);
     setSelectedClass(CLASSES[option]);
     setCurrentStats(CLASSES[option]);
+  };
+
+  const onSelectHelm = option => {
+    setHelmDropDownSelected(option);
+  };
+
+  const onSelectChest = option => {
+    setChestDropDownSelected(option);
+  };
+
+  const onSelectGauntlets = option => {
+    setGauntletsDropDownSelected(option);
+  };
+
+  const onSelectLegs = option => {
+    setLegsDropDownSelected(option);
   };
 
   const handleAlterStat = (stat, statVal) => {
@@ -79,13 +132,13 @@ const CharacterPlanner = props => {
         setBaseStats(filteredData);
         setCurrentStats(filteredData);
         setCharacterLoaded(true);
-        setDropDownSelected(data.startClass);
+        setClassDropDownSelected(data.startClass);
         setNameInput(data.name);
       });
   };
 
   const handleNewCharacter = () => {
-    setDropDownSelected(Object.keys(props.classes)[0]);
+    setClassDropDownSelected(classesNames[0]);
     setCharacterLoaded(false);
     setSelectedClass(Object.values(props.classes)[0]);
     setNameInput("Tarnished");
@@ -116,7 +169,7 @@ const CharacterPlanner = props => {
     const characterData = {
       name: nameInput,
       initLvl: currentStats.initLvl,
-      startClass: dropDownSelected,
+      startClass: classDropDownSelected,
       vig: currentStats.vig,
       mind: currentStats.mind,
       end: currentStats.end,
@@ -157,10 +210,10 @@ const CharacterPlanner = props => {
         <Input name="Name" value={nameInput} onChangeName={handleChangeName} />
         <Dropdown
           name="Class"
-          classes={CLASSES}
-          onSelectClass={onSelectClass}
+          choices={classesNames}
+          onSelect={onSelectClass}
           isDisabled={characterLoaded}
-          selected={dropDownSelected}
+          selected={classDropDownSelected}
         />
         <Button name="new" onClick={handleNewCharacter}>
           New
@@ -182,6 +235,7 @@ const CharacterPlanner = props => {
           )}
         </Panel>
       </Panel>
+
       <div className="Group">
         <Panel title="Base Stats">
           {Object.entries(baseStats)
@@ -203,16 +257,44 @@ const CharacterPlanner = props => {
               />
             ))}
         </Panel>
+        <Panel title="Runes required">
+          <Info
+            name="runesToLevel"
+            stat={level}
+            onCalculateStat={handleCalculateStat}
+          />
+          <SimpleInfo name="totalRunes" stat={totalRunes} />
+        </Panel>
       </div>
 
-      <Panel title="Runes required">
-        <Info
-          name="runesToLevel"
-          stat={level}
-          onCalculateStat={handleCalculateStat}
-        />
-        <SimpleInfo name="totalRunes" stat={totalRunes} />
-      </Panel>
+      <div className="group">
+        <Panel title="Equipment">
+          <Dropdown
+            name="Head"
+            choices={helms.map(helm => helm.name)}
+            selected={helmDropDownSelected}
+            onSelect={onSelectHelm}
+          />
+          <Dropdown
+            name="Chest"
+            choices={chestArmors.map(helm => helm.name)}
+            selected={chestDropDownSelected}
+            onSelect={onSelectChest}
+          />
+          <Dropdown
+            name="Hands"
+            choices={gauntlets.map(gauntlet => gauntlet.name)}
+            selected={gauntletsDropDownSelected}
+            onSelect={onSelectGauntlets}
+          />
+          <Dropdown
+            name="Legs"
+            choices={legArmors.map(leg => leg.name)}
+            selected={legsDropDownSelected}
+            onSelect={onSelectLegs}
+          />
+        </Panel>
+      </div>
 
       <Panel>
         {[
