@@ -63,8 +63,10 @@ html {
 
 /* Dropdown Styling */
 .Dropdown {
+  display: flex; /* Enables flexbox layout */
   width: 100%;
   margin: 10px 0;
+  gap: 10px; /* Optional: Adds space between elements */
 }
 
 /* Info and Counter Components */
@@ -132,8 +134,6 @@ html {
   cursor: pointer;
 }
 
-
-
 .Counter input {
   background-color: #1e1e1e; /* Dark background for input */
   color: #e0e0e0; /* Light text color */
@@ -153,8 +153,10 @@ html {
 
 .Group {
   display: flex; /* Enables flexbox layout */
-  justify-content: flex-start; /* Align items to the start (you can use space-between or center as needed) */
-  align-items: center; /* Vertically center the items if they have different heights */
+  justify-content: flex-start; /* Align items to the start */
+  gap: 15px; /* Adds space between flex items */
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .Input label {
@@ -241,7 +243,7 @@ html {
     height: 400vh; /* Set a height for the element */
     width: 100%; /* Set a width for the element */
   }
-  
+
   .App {
     flex-direction: column;
     align-items: center;
