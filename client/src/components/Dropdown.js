@@ -1,6 +1,6 @@
 const Dropdown = props => {
   const handleChange = event => {
-    props.onSelectClass(event.target.value);
+    props.onSelect(event.target.value);
   };
 
   return (
@@ -8,14 +8,18 @@ const Dropdown = props => {
       <label>{props.name}</label>
       {props.isDisabled ? (
         <select value={props.selected} onChange={handleChange} disabled>
-          {Object.keys(props.classes).map(key => (
-            <option key={key}>{key}</option>
+          {props.choices.map((element, index) => (
+            <option key={index} value={element}>
+              {element}
+            </option>
           ))}
         </select>
       ) : (
         <select value={props.selected} onChange={handleChange}>
-          {Object.keys(props.classes).map(key => (
-            <option key={key}>{key}</option>
+          {props.choices.map((element, index) => (
+            <option key={index} value={element}>
+              {element}
+            </option>
           ))}
         </select>
       )}
