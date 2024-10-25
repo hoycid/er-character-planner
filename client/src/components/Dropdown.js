@@ -1,13 +1,17 @@
 const Dropdown = props => {
+  const { name, selected } = props;
+
   const handleChange = event => {
     props.onSelect(event.target.value);
   };
 
   return (
     <div className="Dropdown">
-      <label>{props.name}</label>
+      <span>
+        <label>{name}</label>
+      </span>
       {props.isDisabled ? (
-        <select value={props.selected} onChange={handleChange} disabled>
+        <select value={selected} onChange={handleChange} disabled>
           {props.choices.map((element, index) => (
             <option key={index} value={element}>
               {element}
@@ -15,7 +19,7 @@ const Dropdown = props => {
           ))}
         </select>
       ) : (
-        <select value={props.selected} onChange={handleChange}>
+        <select value={selected} onChange={handleChange}>
           {props.choices.map((element, index) => (
             <option key={index} value={element}>
               {element}
