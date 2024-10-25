@@ -21,6 +21,7 @@ import {
 import CLASSES from "../utils/CLASSES";
 import SimpleInfo from "../components/SimpleInfo";
 import calculateBaseStats from "../services/calculateBaseStats";
+import CustomDropdown from "../components/CustomDropdown";
 
 const CharacterPlanner = props => {
   const [classesNames, setClassesNames] = useState([]);
@@ -333,7 +334,7 @@ const CharacterPlanner = props => {
       <div className="PanelGroup">
         <Panel title="Equipment">
           <div className="Group">
-            <Dropdown
+            <CustomDropdown
               name="Head"
               choices={helms.map(helm => helm.name)}
               selected={helmDropDownSelected}
@@ -342,7 +343,7 @@ const CharacterPlanner = props => {
             <p className="detail">{charWeight.head}</p>
           </div>
           <div className="Group">
-            <Dropdown
+            <CustomDropdown
               name="Chest"
               choices={chestArmors.map(chest => chest.name)}
               selected={chestDropDownSelected}
@@ -351,7 +352,7 @@ const CharacterPlanner = props => {
             <p className="detail">{charWeight.body}</p>
           </div>
           <div className="Group">
-            <Dropdown
+            <CustomDropdown
               name="Hands"
               choices={gauntlets.map(gauntlet => gauntlet.name)}
               selected={gauntletsDropDownSelected}
@@ -360,7 +361,7 @@ const CharacterPlanner = props => {
             <p className="detail">{charWeight.hands}</p>
           </div>
           <div className="Group">
-            <Dropdown
+            <CustomDropdown
               name="Legs"
               choices={legArmors.map(leg => leg.name)}
               selected={legsDropDownSelected}
