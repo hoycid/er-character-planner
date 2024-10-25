@@ -288,8 +288,10 @@ const CharacterPlanner = props => {
             props.characters.map(({ name, id }) => (
               <div className="Pill" key={`${id}-${name}`}>
                 <p className="stat-value">{name}</p>
-                <button onClick={() => handleLoadPreset(id)}>Load</button>
-                <button onClick={() => handleDeletePreset(id)}>Delete</button>
+                <span>
+                  <button onClick={() => handleLoadPreset(id)}>Load</button>
+                  <button onClick={() => handleDeletePreset(id)}>Delete</button>
+                </span>
               </div>
             ))
           ) : (

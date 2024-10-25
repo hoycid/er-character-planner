@@ -125,15 +125,19 @@ html {
   margin: 0; /* Ensure no extra margin is added */
 }
 
+.PIll span {
+  margin-left: auto; /* Pushes the button to the right */
+}
+
 .Pill button {
   display: inline-block;
   padding: 5px 10px;
-  margin-left: auto; /* Pushes the button to the right */
   background-color: #2a2a2a; /* Darker background for info panels */
   border: 1px solid #444; /* Dark border for contrast */
   border-radius: 5px;
   font-weight: bold;
   color: #ffffff; /* White for stat values */
+  margin: 2px;
 }
 
 .Pill button:hover {
