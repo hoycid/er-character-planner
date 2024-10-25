@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
-import calculateBaseStats from "../services/calculateBaseStats";
 
 const Info = props => {
-  const { name, stat, onCalculateStat } = props;
+  const { name, stat } = props;
   const [basicStat, setBasicStat] = useState(stat);
 
   useEffect(() => {
-    const newStat = calculateBaseStats(name, stat);
-    setBasicStat(newStat);
-    onCalculateStat(name, newStat);
+    setBasicStat(stat);
   }, [name, stat]);
 
   return (
