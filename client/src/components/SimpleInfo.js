@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import calculateBaseStats from "../services/calculateBaseStats";
 
 const SimpleInfo = props => {
   const { name, stat } = props;
