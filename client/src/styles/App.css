@@ -189,6 +189,7 @@ html {
   border-radius: 4px; /* Rounded corners */
   padding: 5px; /* Padding inside the input */
   width: 50%; /* Adjust width as needed */
+  font-size: 14px;
 }
 
 /* Hover and Interaction States */
@@ -211,6 +212,7 @@ html {
   border-radius: 4px; /* Rounded corners */
   padding: 5px; /* Padding inside the input */
   width: 13rem; /* Adjust width as needed */
+  font-size: 14px;
 }
 
 /* Hover and Interaction States */
@@ -218,6 +220,60 @@ html {
   background-color: #3a3a3a; /* Slightly lighter on hover */
   border-color: #666; /* Lighter border on hover */
   cursor: pointer;
+}
+
+/* Container for positioning */
+.dropdownContainer {
+  position: relative; /* Set to relative to position .dropdownOptions */
+  width: 100%; /* Set width to match dropdown options */
+}
+
+.dropdownContainer input {
+  background-color: #1e1e1e; /* Dark background for input */
+  color: #e0e0e0; /* Light text color */
+  border: 1px solid #444; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  padding: 5px; /* Padding inside the input */
+  width: 12rem; /* Adjust width as needed */
+  font-size: 14px;
+}
+
+/* Hover and Interaction States */
+.dropdownContainer input:hover {
+  background-color: #3a3a3a; /* Slightly lighter on hover */
+  border-color: #666; /* Lighter border on hover */
+  cursor: pointer;
+}
+
+/* Dropdown options styling */
+.dropdownOptions {
+  position: absolute;
+  top: 100%; /* Position directly below the input */
+  left: 0;
+  background-color: #1e1e1e; /* Match input background color */
+  border: 1px solid #444;
+  border-radius: 4px;
+  max-height: 250px;
+  overflow-y: auto;
+  width: 100%; /* Match container/input width */
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Individual option styling */
+.dropdownOption {
+  padding: 10px;
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  cursor: pointer;
+}
+
+.dropdownOption:hover {
+  background-color: #3a3a3a;
+}
+
+.no-options {
+  text-align: center;
 }
 
 .Button {
