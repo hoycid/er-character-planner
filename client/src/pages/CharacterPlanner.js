@@ -11,9 +11,16 @@ import Button from "../components/Button";
 import { useLevel } from "../providers/LevelProvider";
 import Subinfo from "../components/Subinfo";
 
-import { calculateRunesToLevel } from "../services/calculateBaseStats";
+import {
+  calculateEquipLoad,
+  calculateRunesToLevel,
+  calculateTotalRunes,
+  calculateWeight,
+  determineWeightStatus,
+} from "../services/calculateBaseStats";
 import CLASSES from "../utils/CLASSES";
 import SimpleInfo from "../components/SimpleInfo";
+import calculateBaseStats from "../services/calculateBaseStats";
 
 const CharacterPlanner = props => {
   const [classesNames, setClassesNames] = useState([]);
@@ -25,8 +32,8 @@ const CharacterPlanner = props => {
   const [baseStats, setBaseStats] = useState(selectedClass);
   const [currentStats, setCurrentStats] = useState(selectedClass);
   const [calculatedStats, setCalculatedStats] = useState({
-    equipload: "Light load",
     totalWeight: 0,
+    poise: 0,
   });
   const [characterLoaded, setCharacterLoaded] = useState(false);
   const [classDropDownSelected, setClassDropDownSelected] = useState(
@@ -43,7 +50,14 @@ const CharacterPlanner = props => {
   const [legArmors, setLegArmors] = useState([]);
   const [chestArmors, setChestArmors] = useState([]);
   const [gauntlets, setGauntlets] = useState([]);
-  const { level, setLevel, totalRunes, setTotalRunes } = useLevel();
+  const [charWeight, setCharWeight] = useState({
+    head: 0,
+    body: 0,
+    hands: 0,
+    legs: 0,
+  });
+  const [weightStatus, setWeightStatus] = useState("Light load");
+  const { level, setLevel } = useLevel();
 
   useEffect(() => {
     setBaseStats(selectedClass);
@@ -85,18 +99,80 @@ const CharacterPlanner = props => {
 
   const onSelectHelm = option => {
     setHelmDropDownSelected(option);
+    const helm = helms.find(helm => helm.name === option);
+    const weight = helm.weight;
+    const poise = helm.resistance[4];
+    console.log(poise);
+    setCharWeight({ ...charWeight, head: weight });
+    const totalWeight =
+      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
+    setCalculatedStats(prevStats => ({
+      ...prevStats,
+      totalWeight: totalWeight.toFixed(1),
+    }));
+    setWeightStatus(
+      determineWeightStatus(
+        calculateEquipLoad(currentStats.end),
+        calculateWeight(charWeight)
+      )
+    );
   };
 
   const onSelectChest = option => {
     setChestDropDownSelected(option);
+    const chest = chestArmors.find(chest => chest.name === option);
+    const weight = chest.weight;
+    setCharWeight({ ...charWeight, body: weight });
+    const totalWeight =
+      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
+    setCalculatedStats(prevStats => ({
+      ...prevStats,
+      totalWeight: totalWeight.toFixed(1),
+    }));
+    setWeightStatus(
+      determineWeightStatus(
+        calculateEquipLoad(currentStats.end),
+        calculateWeight(charWeight)
+      )
+    );
   };
 
   const onSelectGauntlets = option => {
     setGauntletsDropDownSelected(option);
+    const gauntlet = gauntlets.find(gauntlet => gauntlet.name === option);
+    const weight = gauntlet.weight;
+    setCharWeight({ ...charWeight, hands: weight });
+    const totalWeight =
+      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
+    setCalculatedStats(prevStats => ({
+      ...prevStats,
+      totalWeight: totalWeight.toFixed(1),
+    }));
+    setWeightStatus(
+      determineWeightStatus(
+        calculateEquipLoad(currentStats.end),
+        calculateWeight(charWeight)
+      )
+    );
   };
 
   const onSelectLegs = option => {
     setLegsDropDownSelected(option);
+    const leg = legArmors.find(leg => leg.name === option);
+    const weight = leg.weight;
+    setCharWeight({ ...charWeight, legs: weight });
+    const totalWeight =
+      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
+    setCalculatedStats(prevStats => ({
+      ...prevStats,
+      totalWeight: totalWeight.toFixed(1),
+    }));
+    setWeightStatus(
+      determineWeightStatus(
+        calculateEquipLoad(currentStats.end),
+        calculateWeight(charWeight)
+      )
+    );
   };
 
   const handleAlterStat = (stat, statVal) => {
@@ -105,20 +181,6 @@ const CharacterPlanner = props => {
       [stat]: statVal,
     };
     setCurrentStats(updatedStats);
-  };
-
-  const handleCalculateStat = (statName, value) => {
-    setCalculatedStats({
-      ...calculatedStats,
-      [statName]: value,
-    });
-
-    let runes = 0;
-    for (let i = level - 1; i >= selectedClass.initLvl; i--) {
-      runes = runes + calculateRunesToLevel(i);
-    }
-
-    setTotalRunes(runes);
   };
 
   const handleLoadPreset = id => {
@@ -236,7 +298,7 @@ const CharacterPlanner = props => {
         </Panel>
       </Panel>
 
-      <div className="Group">
+      <div className="PanelGroup">
         <Panel title="Base Stats">
           {Object.entries(baseStats)
             .filter(([name]) => name !== "initLvl")
@@ -258,69 +320,92 @@ const CharacterPlanner = props => {
             ))}
         </Panel>
         <Panel title="Runes required">
-          <Info
-            name="runesToLevel"
-            stat={level}
-            onCalculateStat={handleCalculateStat}
+          <Info name="runesToLevel" stat={calculateRunesToLevel(level)} />
+          <SimpleInfo
+            name="totalRunes"
+            stat={calculateTotalRunes(selectedClass.initLvl, level)}
           />
-          <SimpleInfo name="totalRunes" stat={totalRunes} />
         </Panel>
       </div>
 
-      <div className="group">
+      <div className="PanelGroup">
         <Panel title="Equipment">
-          <Dropdown
-            name="Head"
-            choices={helms.map(helm => helm.name)}
-            selected={helmDropDownSelected}
-            onSelect={onSelectHelm}
-          />
-          <Dropdown
-            name="Chest"
-            choices={chestArmors.map(helm => helm.name)}
-            selected={chestDropDownSelected}
-            onSelect={onSelectChest}
-          />
-          <Dropdown
-            name="Hands"
-            choices={gauntlets.map(gauntlet => gauntlet.name)}
-            selected={gauntletsDropDownSelected}
-            onSelect={onSelectGauntlets}
-          />
-          <Dropdown
-            name="Legs"
-            choices={legArmors.map(leg => leg.name)}
-            selected={legsDropDownSelected}
-            onSelect={onSelectLegs}
-          />
+          <div className="Group">
+            <Dropdown
+              name="Head"
+              choices={helms.map(helm => helm.name)}
+              selected={helmDropDownSelected}
+              onSelect={onSelectHelm}
+            />
+            <p className="detail">{charWeight.head}</p>
+          </div>
+          <div className="Group">
+            <Dropdown
+              name="Chest"
+              choices={chestArmors.map(chest => chest.name)}
+              selected={chestDropDownSelected}
+              onSelect={onSelectChest}
+            />
+            <p className="detail">{charWeight.body}</p>
+          </div>
+          <div className="Group">
+            <Dropdown
+              name="Hands"
+              choices={gauntlets.map(gauntlet => gauntlet.name)}
+              selected={gauntletsDropDownSelected}
+              onSelect={onSelectGauntlets}
+            />
+            <p className="detail">{charWeight.hands}</p>
+          </div>
+          <div className="Group">
+            <Dropdown
+              name="Legs"
+              choices={legArmors.map(leg => leg.name)}
+              selected={legsDropDownSelected}
+              onSelect={onSelectLegs}
+            />
+            <p className="detail">{charWeight.legs}</p>
+          </div>
         </Panel>
       </div>
 
       <Panel>
         {[
-          { name: "hp", stat: currentStats.vig },
-          { name: "fp", stat: currentStats.mind },
-          { name: "stamina", stat: currentStats.end },
-          { name: "equipLoad", stat: currentStats.end },
+          { name: "hp", stat: calculateBaseStats("hp", currentStats.vig) },
+          { name: "fp", stat: calculateBaseStats("fp", currentStats.mind) },
+          {
+            name: "stamina",
+            stat: calculateBaseStats("stamina", currentStats.end),
+          },
+          {
+            name: "weight",
+            stat: calculateBaseStats("weight", charWeight).toFixed(1),
+          },
+          {
+            name: "equipLoad",
+            stat:
+              Math.round(
+                calculateBaseStats("equipLoad", currentStats.end) * 10
+              ) / 10,
+          },
+          {
+            name: "weightRatio",
+            stat: (
+              (calculateBaseStats("weight", charWeight) /
+                calculateBaseStats("equipLoad", currentStats.end)) *
+              100
+            ).toFixed(2),
+          },
         ].map(({ name, stat }) => (
-          <Info
-            key={name}
-            name={name}
-            stat={stat}
-            onCalculateStat={handleCalculateStat}
-          />
+          <Info key={name} name={name} stat={stat} />
         ))}
-        <Subinfo name="weightStatus" stat={calculatedStats.equipload} />
+        <Subinfo name="weightStatus" stat={weightStatus} />
+
+        <Info name="poise" stat={calculatedStats.totalWeight ? 0 : 0} />
 
         <Info
-          name="poise"
-          stat={calculatedStats.totalWeight}
-          onCalculateStat={handleCalculateStat}
-        />
-        <Info
           name="discovery"
-          stat={currentStats.arc}
-          onCalculateStat={handleCalculateStat}
+          stat={calculateBaseStats("discovery", currentStats.arc)}
         />
       </Panel>
     </>

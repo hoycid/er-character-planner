@@ -76,7 +76,7 @@ export const calculateEquipLoad = end => {
     throw new Error("Calculating equip load failed.");
   }
 
-  return Math.round(equipLoad * 10) / 10;
+  return equipLoad;
 };
 
 export const calculateDiscovery = arc => {
@@ -85,20 +85,30 @@ export const calculateDiscovery = arc => {
   return Math.round(discovery * 10) / 10;
 };
 
+export const calculateWeight = piecesWeights => {
+  let weight =
+    piecesWeights.head +
+    piecesWeights.body +
+    piecesWeights.hands +
+    piecesWeights.legs;
+
+  return weight;
+};
+
 export const determineWeightStatus = (equipLoad, totalWeight) => {
-  let weightStatus = "";
+  let weightRatio = (totalWeight / equipLoad) * 100;
 
-  if (equipLoad >= 29.9) {
-    weightStatus = "Light Load";
-  } else if (equipLoad >= 30.0 && equipLoad <= 69.9) {
-    weightStatus = "Med. Load";
-  } else if (equipLoad >= 70.0 && equipLoad <= 99.9) {
-    weightStatus = "Heavy Load";
-  } else if (equipLoad >= 100.0) {
-    weightStatus = "Overloaded";
+  if (weightRatio <= 29.9) {
+    return "Light Load";
+  } else if (weightRatio >= 30.0 && weightRatio <= 69.9) {
+    return "Med. Load";
+  } else if (weightRatio >= 70.0 && weightRatio <= 99.9) {
+    return "Heavy Load";
+  } else if (weightRatio >= 100.0) {
+    return "Overloaded";
+  } else {
+    return "Error";
   }
-
-  return weightStatus;
 };
 
 export const calculateRunesToLevel = level => {
@@ -115,6 +125,14 @@ export const calculateRunesToLevel = level => {
   } else {
     return 0;
   }
+};
+
+export const calculateTotalRunes = (initLvl, level) => {
+  let runes = 0;
+  for (let i = level - 1; i >= initLvl; i--) {
+    runes = runes + calculateRunesToLevel(i);
+  }
+  return runes;
 };
 
 const calculateBaseStats = (statName, stat) => {
@@ -134,8 +152,8 @@ const calculateBaseStats = (statName, stat) => {
   if (statName === "discovery") {
     result = calculateDiscovery(stat);
   }
-  if (statName === "runesToLevel") {
-    result = calculateRunesToLevel(stat);
+  if (statName === "weight") {
+    result = calculateWeight(stat);
   }
 
   return result;
