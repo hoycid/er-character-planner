@@ -69,6 +69,14 @@ html {
   gap: 10px; /* Optional: Adds space between elements */
 }
 
+.Dropdown span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  display: inline-block;
+  width: 60px;
+}
+
 /* Info and Counter Components */
 .Info,
 .Counter,
@@ -151,12 +159,17 @@ html {
   cursor: pointer;
 }
 
-.Group {
+.PanelGroup {
   display: flex; /* Enables flexbox layout */
   justify-content: flex-start; /* Align items to the start */
   gap: 15px; /* Adds space between flex items */
-  padding-left: 5%;
-  padding-right: 5%;
+}
+
+.Group {
+  display: flex; /* Enables flexbox layout */
+  justify-content: flex-start; /* Align items to the start */
+  align-items: center;
+  gap: 3%;
 }
 
 .Input label {
@@ -193,7 +206,7 @@ html {
   border: 1px solid #444; /* Border color */
   border-radius: 4px; /* Rounded corners */
   padding: 5px; /* Padding inside the input */
-  width: 50%; /* Adjust width as needed */
+  width: 13rem; /* Adjust width as needed */
 }
 
 /* Hover and Interaction States */
@@ -231,6 +244,10 @@ html {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.detail {
+  font-size: 12px;
 }
 
 /* Responsive Design for Smaller Screens */
