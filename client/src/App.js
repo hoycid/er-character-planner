@@ -11,9 +11,9 @@ function App() {
     setCharacters(prevCharacters => [...prevCharacters, char]);
   };
 
-  const handleDeleteCharacter = char => {
+  const handleDeleteCharacter = id => {
     setCharacters(prevCharacters =>
-      prevCharacters.filter(character => character.id !== char.id)
+      prevCharacters.filter(character => character.id !== id)
     );
   };
 
