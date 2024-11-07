@@ -24,7 +24,7 @@ import calculateBaseStats from "../services/calculateBaseStats";
 import CustomDropdown from "../components/CustomDropdown";
 
 const CharacterPlanner = props => {
-  const [classesNames, setClassesNames] = useState([]);
+  const [classesNames, setClassesNames] = useState(Object.keys(props.classes));
   const [selectedClass, setSelectedClass] = useState(
     props.classes && Object.values(props.classes).length > 0
       ? Object.values(props.classes)[0]
