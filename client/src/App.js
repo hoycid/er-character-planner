@@ -82,7 +82,7 @@ function App() {
     fetchArmors();
     fetchCharClasses();
     fetchCharacters();
-  }, []);
+  }, [characters]);
 
   return (
     <div className="App">
