@@ -88,7 +88,7 @@ export const calculateDiscovery = arc => {
 export const calculateWeight = piecesWeights => {
   let weight =
     piecesWeights.head +
-    piecesWeights.body +
+    piecesWeights.chest +
     piecesWeights.hands +
     piecesWeights.legs;
 
