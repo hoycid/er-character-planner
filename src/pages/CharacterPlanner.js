@@ -12,11 +12,8 @@ import { useLevel } from "../providers/LevelProvider";
 import Subinfo from "../components/Subinfo";
 
 import {
-  calculateEquipLoad,
   calculateRunesToLevel,
   calculateTotalRunes,
-  calculateWeight,
-  determineWeightStatus,
 } from "../services/calculateBaseStats";
 import CLASSES from "../utils/CLASSES";
 import SimpleInfo from "../components/SimpleInfo";
@@ -24,14 +21,18 @@ import calculateBaseStats from "../services/calculateBaseStats";
 import CustomDropdown from "../components/CustomDropdown";
 
 const CharacterPlanner = props => {
+  const [helms, setHelms] = useState([]);
+  const [legArmors, setLegArmors] = useState([]);
+  const [chestArmors, setChestArmors] = useState([]);
+  const [gauntlets, setGauntlets] = useState([]);
   const [classesNames, setClassesNames] = useState(Object.keys(props.classes));
-  const [selectedClass, setSelectedClass] = useState(
+
+  const [baseStats, setBaseStats] = useState(
     props.classes && Object.values(props.classes).length > 0
       ? Object.values(props.classes)[0]
       : CLASSES.hero
   );
-  const [baseStats, setBaseStats] = useState(selectedClass);
-  const [currentStats, setCurrentStats] = useState(selectedClass);
+  const [currentStats, setCurrentStats] = useState(baseStats);
   const [calculatedStats, setCalculatedStats] = useState({
     totalWeight: 0,
     poise: 0,
@@ -40,30 +41,36 @@ const CharacterPlanner = props => {
   const [classDropDownSelected, setClassDropDownSelected] = useState(
     classesNames[0]
   );
-  const [helmDropDownSelected, setHelmDropDownSelected] = useState("");
-  const [chestDropDownSelected, setChestDropDownSelected] = useState("");
-  const [gauntletsDropDownSelected, setGauntletsDropDownSelected] =
-    useState("");
-  const [legsDropDownSelected, setLegsDropDownSelected] = useState("");
+
+  const [equipped, setEquipped] = useState({
+    head: "",
+    chest: "",
+    hands: "",
+    legs: "",
+  });
 
   const [nameInput, setNameInput] = useState("Tarnished");
-  const [helms, setHelms] = useState([]);
-  const [legArmors, setLegArmors] = useState([]);
-  const [chestArmors, setChestArmors] = useState([]);
-  const [gauntlets, setGauntlets] = useState([]);
+
   const [charWeight, setCharWeight] = useState({
     head: 0,
-    body: 0,
+    chest: 0,
     hands: 0,
     legs: 0,
   });
+
+  const [charPoise, setCharPoise] = useState({
+    head: 0,
+    chest: 0,
+    hands: 0,
+    legs: 0,
+  });
+
   const [weightStatus, setWeightStatus] = useState("Light load");
   const { level, setLevel } = useLevel();
 
   useEffect(() => {
-    setBaseStats(selectedClass);
-    setCurrentStats(selectedClass);
-    setLevel(selectedClass.initLvl);
+    setCurrentStats(baseStats);
+    setLevel(baseStats.initLvl);
     setClassesNames(Object.keys(props.classes));
     if (props.armors.length > 0) {
       setHelms(
@@ -90,90 +97,46 @@ const CharacterPlanner = props => {
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
     }
-  }, [selectedClass, setLevel, classDropDownSelected, characterLoaded]);
+  }, [baseStats, setLevel, classDropDownSelected, characterLoaded]);
 
   const onSelectClass = option => {
     setClassDropDownSelected(option);
-    setSelectedClass(CLASSES[option]);
+    setBaseStats(CLASSES[option]);
     setCurrentStats(CLASSES[option]);
   };
 
-  const onSelectHelm = option => {
-    setHelmDropDownSelected(option);
-    const helm = helms.find(helm => helm.name === option);
-    const weight = helm.weight;
-    const poise = helm.resistance[4];
-    console.log(poise);
+  const onSelectEquipment = (slot, itemName) => {
+    setEquipped({
+      ...equipped,
+      [slot]: itemName,
+    });
+
+    let item = "";
+
+    if (slot === "head") {
+      item = helms.find(helm => helm.name === itemName);
+    } else if (slot === "chest") {
+      item = chestArmors.find(chest => chest.name === itemName);
+    } else if (slot === "hands") {
+      item = gauntlets.find(gauntlet => gauntlet.name === itemName);
+    } else if (slot === "legs") {
+      item = legArmors.find(leg => leg.name === itemName);
+    } else {
+      console.log("Error while selecting equipment: Item not found.");
+    }
+
+    const weight = item.weight;
+    const poise = item.resistance[4];
+
     setCharWeight({ ...charWeight, head: weight });
-    const totalWeight =
-      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
-    setCalculatedStats(prevStats => ({
-      ...prevStats,
-      totalWeight: totalWeight.toFixed(1),
-    }));
-    setWeightStatus(
-      determineWeightStatus(
-        calculateEquipLoad(currentStats.end),
-        calculateWeight(charWeight)
-      )
-    );
-  };
 
-  const onSelectChest = option => {
-    setChestDropDownSelected(option);
-    const chest = chestArmors.find(chest => chest.name === option);
-    const weight = chest.weight;
-    setCharWeight({ ...charWeight, body: weight });
     const totalWeight =
-      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
-    setCalculatedStats(prevStats => ({
-      ...prevStats,
-      totalWeight: totalWeight.toFixed(1),
-    }));
-    setWeightStatus(
-      determineWeightStatus(
-        calculateEquipLoad(currentStats.end),
-        calculateWeight(charWeight)
-      )
-    );
-  };
+      charWeight.head + charWeight.chest + charWeight.hands + charWeight.legs;
 
-  const onSelectGauntlets = option => {
-    setGauntletsDropDownSelected(option);
-    const gauntlet = gauntlets.find(gauntlet => gauntlet.name === option);
-    const weight = gauntlet.weight;
-    setCharWeight({ ...charWeight, hands: weight });
-    const totalWeight =
-      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
     setCalculatedStats(prevStats => ({
       ...prevStats,
       totalWeight: totalWeight.toFixed(1),
     }));
-    setWeightStatus(
-      determineWeightStatus(
-        calculateEquipLoad(currentStats.end),
-        calculateWeight(charWeight)
-      )
-    );
-  };
-
-  const onSelectLegs = option => {
-    setLegsDropDownSelected(option);
-    const leg = legArmors.find(leg => leg.name === option);
-    const weight = leg.weight;
-    setCharWeight({ ...charWeight, legs: weight });
-    const totalWeight =
-      charWeight.head + charWeight.body + charWeight.hands + charWeight.legs;
-    setCalculatedStats(prevStats => ({
-      ...prevStats,
-      totalWeight: totalWeight.toFixed(1),
-    }));
-    setWeightStatus(
-      determineWeightStatus(
-        calculateEquipLoad(currentStats.end),
-        calculateWeight(charWeight)
-      )
-    );
   };
 
   const handleAlterStat = (stat, statVal) => {
@@ -191,7 +154,6 @@ const CharacterPlanner = props => {
       .then(response => response.json())
       .then(data => {
         const { id, name, startClass, ...filteredData } = data;
-        setSelectedClass(filteredData);
         setBaseStats(filteredData);
         setCurrentStats(filteredData);
         setCharacterLoaded(true);
@@ -203,7 +165,7 @@ const CharacterPlanner = props => {
   const handleNewCharacter = () => {
     setClassDropDownSelected(classesNames[0]);
     setCharacterLoaded(false);
-    setSelectedClass(Object.values(props.classes)[0]);
+    setBaseStats(Object.values(props.classes)[0]);
     setNameInput("Tarnished");
   };
 
@@ -326,7 +288,7 @@ const CharacterPlanner = props => {
           <Info name="runesToLevel" stat={calculateRunesToLevel(level)} />
           <SimpleInfo
             name="totalRunes"
-            stat={calculateTotalRunes(selectedClass.initLvl, level)}
+            stat={calculateTotalRunes(baseStats.initLvl, level)}
           />
         </Panel>
       </div>
@@ -335,37 +297,37 @@ const CharacterPlanner = props => {
         <Panel title="Equipment">
           <div className="Group">
             <CustomDropdown
-              name="Head"
+              name="head"
               choices={helms.map(helm => helm.name)}
-              selected={helmDropDownSelected}
-              onSelect={onSelectHelm}
+              selected={equipped.head}
+              onSelect={onSelectEquipment}
             />
             <p className="detail">{charWeight.head}</p>
           </div>
           <div className="Group">
             <CustomDropdown
-              name="Chest"
+              name="chest"
               choices={chestArmors.map(chest => chest.name)}
-              selected={chestDropDownSelected}
-              onSelect={onSelectChest}
+              selected={equipped.chest}
+              onSelect={onSelectEquipment}
             />
-            <p className="detail">{charWeight.body}</p>
+            <p className="detail">{charWeight.chest}</p>
           </div>
           <div className="Group">
             <CustomDropdown
-              name="Hands"
+              name="hands"
               choices={gauntlets.map(gauntlet => gauntlet.name)}
-              selected={gauntletsDropDownSelected}
-              onSelect={onSelectGauntlets}
+              selected={equipped.hands}
+              onSelect={onSelectEquipment}
             />
             <p className="detail">{charWeight.hands}</p>
           </div>
           <div className="Group">
             <CustomDropdown
-              name="Legs"
+              name="legs"
               choices={legArmors.map(leg => leg.name)}
-              selected={legsDropDownSelected}
-              onSelect={onSelectLegs}
+              selected={equipped.legs}
+              onSelect={onSelectEquipment}
             />
             <p className="detail">{charWeight.legs}</p>
           </div>
@@ -404,7 +366,10 @@ const CharacterPlanner = props => {
         ))}
         <Subinfo name="weightStatus" stat={weightStatus} />
 
-        <Info name="poise" stat={calculatedStats.totalWeight ? 0 : 0} />
+        <Info
+          name="poise"
+          stat={calculatedStats.poise ? calculatedStats.poise : 0}
+        />
 
         <Info
           name="discovery"
