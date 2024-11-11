@@ -126,16 +126,21 @@ const CharacterPlanner = props => {
     }
 
     const weight = item.weight;
-    const poise = item.resistance[4];
+    const poise = item.resistance[4].amount;
 
-    setCharWeight({ ...charWeight, head: weight });
+    setCharWeight({ ...charWeight, [slot]: weight });
+    setCharPoise({ ...charPoise, [slot]: poise });
 
     const totalWeight =
       charWeight.head + charWeight.chest + charWeight.hands + charWeight.legs;
 
+    const totalPoise =
+      charPoise.head + charPoise.chest + charPoise.hands + charPoise.legs;
+
     setCalculatedStats(prevStats => ({
       ...prevStats,
       totalWeight: totalWeight.toFixed(1),
+      totalPoise: totalPoise,
     }));
   };
 
@@ -368,7 +373,7 @@ const CharacterPlanner = props => {
 
         <Info
           name="poise"
-          stat={calculatedStats.poise ? calculatedStats.poise : 0}
+          stat={calculatedStats.totalPoise ? calculatedStats.totalPoise : 0}
         />
 
         <Info
