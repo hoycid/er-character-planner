@@ -19,7 +19,7 @@ const CustomDropdown = props => {
     setTimeout(() => {
       const match = props.choices.find(choice => input === choice);
       if (match) {
-        props.onSelect(input); // Confirm selection
+        props.onSelect(props.name, input); // Confirm selection
       } else {
         setInput("");
       }
@@ -29,11 +29,12 @@ const CustomDropdown = props => {
 
   const showOptions = () => {
     setOptionsShown(prev => !prev); // Toggle options visibility
+    setInput("");
   };
 
   const handleOptionClick = option => {
     setInput(option);
-    props.onSelect(option); // Pass selected option back
+    props.onSelect(props.name, option); // Pass selected option back
     setOptionsShown(false); // Hide options after selection
   };
 
