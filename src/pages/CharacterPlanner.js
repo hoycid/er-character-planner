@@ -72,32 +72,38 @@ const CharacterPlanner = props => {
     setCurrentStats(baseStats);
     setLevel(baseStats.initLvl);
     setClassesNames(Object.keys(props.classes));
+
     if (props.armors.length > 0) {
       setHelms(
         props.armors
-          .filter(item => item.category === "Helm")
+          .filter(item => item.type === "helm")
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
 
       setChestArmors(
         props.armors
-          .filter(item => item.category === "Chest Armor")
+          .filter(item => item.type === "chest armor")
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
 
       setGauntlets(
         props.armors
-          .filter(item => item.category === "Gauntlets")
+          .filter(item => item.type === "gauntlets")
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
 
       setLegArmors(
         props.armors
-          .filter(item => item.category === "Leg Armor")
+          .filter(item => item.type === "leg armor")
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
     }
-  }, [baseStats, setLevel, classDropDownSelected, characterLoaded]);
+  }, [
+    baseStats,
+    setLevel,
+    classDropDownSelected,
+    characterLoaded,
+  ]);
 
   const onSelectClass = option => {
     setClassDropDownSelected(option);
@@ -125,8 +131,21 @@ const CharacterPlanner = props => {
       console.log("Error while selecting equipment: Item not found.");
     }
 
-    const weight = item.weight;
-    const poise = item.resistance[4].amount;
+    let weight = 0;
+    let poise = 0;
+
+    if (item) {
+      const resistanceArrString = item.resistance;
+
+      const resistanceValid = resistanceArrString.replace(/'/g, '"');
+
+      const parsedResistance = JSON.parse(resistanceValid);
+
+      const itemResistance = { ...parsedResistance[0] };
+
+      weight = Number(item.weight);
+      poise = Number(itemResistance.poise);
+    }
 
     setCharWeight({ ...charWeight, [slot]: weight });
     setCharPoise({ ...charPoise, [slot]: poise });
