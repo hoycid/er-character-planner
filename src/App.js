@@ -52,27 +52,17 @@ function App() {
   };
 
   const fetchArmors = async () => {
-    let allArmors = []; // Initialize an array to store all armors
-    const totalPages = 6; // Define the total number of pages you want to fetch (0 to 5)
-
     try {
-      // Loop through each page
-      for (let page = 0; page < totalPages; page++) {
-        const response = await fetch(
-          `https://eldenring.fanapis.com/api/armors?limit=100&page=${page}`
-        );
+      const response = await fetch(
+        "https://er-character-planner-production.up.railway.app/armors"
+      );
 
-        if (!response.ok) {
-          throw new Error(
-            `Error fetching armors page ${page}: ${response.statusText}`
-          );
-        }
-
-        const data = await response.json();
-        allArmors = [...allArmors, ...data.data]; // Add fetched data to allArmors
+      if (!response.ok) {
+        throw new Error(`Error fetching characters: ${response.statusText}`);
       }
 
-      setArmors(allArmors); // Final state update after fetching all pages
+      const data = await response.json();
+      setArmors(data);
     } catch (error) {
       console.error("Error fetching armors:", error);
     }
