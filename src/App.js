@@ -45,7 +45,7 @@ function App() {
       }
 
       const data = await response.json();
-      setCharacters(data.characters);
+      setCharacters(data);
     } catch (error) {
       console.error("Error fetching characters:", error);
     }
