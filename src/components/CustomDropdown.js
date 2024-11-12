@@ -22,6 +22,7 @@ const CustomDropdown = props => {
         props.onSelect(props.name, input); // Confirm selection
       } else {
         setInput("");
+        props.onSelect(props.name, "");
       }
       setOptionsShown(false);
     }, 150);
