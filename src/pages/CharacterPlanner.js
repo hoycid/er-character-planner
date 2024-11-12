@@ -14,6 +14,7 @@ import Subinfo from "../components/Subinfo";
 import {
   calculateRunesToLevel,
   calculateTotalRunes,
+  determineWeightStatus,
 } from "../services/calculateBaseStats";
 import CLASSES from "../utils/CLASSES";
 import SimpleInfo from "../components/SimpleInfo";
@@ -98,12 +99,7 @@ const CharacterPlanner = props => {
           .sort((a, b) => a.name.localeCompare(b.name)) // Sort alphabetically by name
       );
     }
-  }, [
-    baseStats,
-    setLevel,
-    classDropDownSelected,
-    characterLoaded,
-  ]);
+  }, [baseStats, setLevel, classDropDownSelected, characterLoaded]);
 
   const onSelectClass = option => {
     setClassDropDownSelected(option);
@@ -161,6 +157,13 @@ const CharacterPlanner = props => {
       totalWeight: totalWeight.toFixed(1),
       totalPoise: totalPoise,
     }));
+
+    setWeightStatus(
+      determineWeightStatus(
+        calculateBaseStats("equipLoad", currentStats.end),
+        totalWeight
+      )
+    );
   };
 
   const handleAlterStat = (stat, statVal) => {
